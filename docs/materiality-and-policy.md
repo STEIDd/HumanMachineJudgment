@@ -109,10 +109,10 @@ The aggregate materiality score maps to one of four intervention levels. The def
 
 | Score Range | Intervention Level      | System Behavior                                                                                                                                                                               |
 | ----------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 to 3      | `trace`                 | The decision is logged silently. The user is not interrupted. Work continues without pause.                                                                                                   |
-| 4 to 7      | `disclose`              | The decision is surfaced to the user through a notification or inline marker. Work continues without blocking. The user can review the decision at their convenience.                         |
-| 8 to 12     | `pause`                 | Execution halts until the decision is resolved. The user must explicitly resolve the Judgment Point before work can continue.                                                                 |
-| 13 to 18    | `require-investigation` | Execution halts, and structured comparison of alternatives is mandatory before resolution. The user must review at least two alternatives with their tradeoffs before recording a resolution. |
+| 0 to 4      | `trace`                 | The decision is logged silently. The user is not interrupted. Work continues without pause.                                                                                                   |
+| 5 to 8      | `disclose`              | The decision is surfaced to the user through a notification or inline marker. Work continues without blocking. The user can review the decision at their convenience.                         |
+| 9 to 13     | `pause`                 | Execution halts until the decision is resolved. The user must explicitly resolve the Judgment Point before work can continue.                                                                 |
+| 14 to 18    | `require-investigation` | Execution halts, and structured comparison of alternatives is mandatory before resolution. The user must review at least two alternatives with their tradeoffs before recording a resolution. |
 
 These thresholds are configurable through policies. An organization may lower or raise the thresholds based on their risk tolerance and the nature of their work.
 

@@ -2,6 +2,7 @@
   "name": "@human-machine-judgment/reference-demo",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
   "description": "Reference demonstration interface for Judgment Points.",
   "type": "module",
   "scripts": {

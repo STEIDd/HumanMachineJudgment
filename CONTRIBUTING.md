@@ -85,7 +85,6 @@ schemas/            Standalone schema files and validation fixtures
 
 skills/             Agent Skill definitions
   technical-judgment-review/  Technical judgment review skill
-  dependency-tracing/         Dependency tracing skill
 
 evals/              Evaluation harness and fixtures
   fixtures/           Test fixtures for evaluation
@@ -95,9 +94,9 @@ evals/              Evaluation harness and fixtures
 
 docs/               Prose documentation source
   decisions/          Architecture decision records
-  reduced-order-thermal-model/  ROTM documentation
 
 examples/           Example workflows and configurations
+  reduced-order-thermal-model/  Reference scientific workflow
 ```
 
 ## Branching

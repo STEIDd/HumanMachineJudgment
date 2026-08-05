@@ -25,7 +25,7 @@
         "tradeoffs": "Provides a richer assessment of model capability. Requires defining what constitutes correct spatial distribution, which introduces additional subjective judgment."
       }
     ],
-    "affected_artifacts": ["validation-check-v03", "conclusion-3", "conclusion-4"],
+    "affectedArtifacts": ["validation-check-v03", "conclusion-3", "conclusion-4"],
     "uncertainty": "No project-specific validation standard has been established. The applicable engineering society guidelines provide general recommendations but do not specify a single required threshold for this type of analysis.",
     "confidence": 0.88
   },

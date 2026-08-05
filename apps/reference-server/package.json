@@ -2,6 +2,7 @@
   "name": "@human-machine-judgment/reference-server",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
   "description": "Reference HTTP API server for Judgment Points.",
   "type": "module",
   "main": "./dist/index.js",

@@ -18,7 +18,7 @@ The project uses the following stack:
 
 - **Runtime**: Node.js 22 LTS (current supported LTS release)
 - **Package manager**: pnpm 10.x with workspace support
-- **Language**: TypeScript in strict mode (TypeScript 7.x)
+- **Language**: TypeScript in strict mode (TypeScript 6.0.3)
 - **Frontend framework**: React 19.x
 - **Build tool**: Vite 7.x for web applications
 - **HTTP server**: Fastify 5.x for the reference API

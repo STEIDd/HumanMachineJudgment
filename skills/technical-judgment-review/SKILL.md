@@ -162,7 +162,7 @@ these fields:
 - **reason**: Why this choice is consequential
 - **alternatives**: Array of defensible options, each with an id, label,
   description, and known tradeoffs
-- **affected_artifacts**: Array of artifact identifiers that depend on
+- **affectedArtifacts**: Array of artifact identifiers that depend on
   this decision
 - **uncertainty**: What remains unknown or unresolved
 - **confidence**: Your confidence (0.0 to 1.0) that this is genuinely

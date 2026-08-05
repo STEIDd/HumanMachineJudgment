@@ -36,3 +36,9 @@ npm-debug.log*
 # Temporary files
 tmp/
 .tmp/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Package archives
+*.tgz

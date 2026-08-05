@@ -70,10 +70,10 @@ def validate_candidate(candidate: dict[str, Any]) -> list[str]:
                     if field not in alt:
                         errors.append(f"Alternative {i} missing required field: {field}")
 
-    if "affected_artifacts" in candidate:
-        artifacts = candidate["affected_artifacts"]
+    if "affectedArtifacts" in candidate:
+        artifacts = candidate["affectedArtifacts"]
         if not isinstance(artifacts, list):
-            errors.append("affected_artifacts must be an array.")
+            errors.append("affectedArtifacts must be an array.")
 
     if "question" in candidate:
         question = candidate["question"]

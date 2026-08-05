@@ -33,7 +33,7 @@ properties that vary significantly across this range.
       "tradeoffs": "More representative of physical behavior across the temperature range, but requires validated property data and increases computational cost."
     }
   ],
-  "affected_artifacts": ["cell-21", "cell-27", "plot-4", "conclusion-2"],
+  "affectedArtifacts": ["cell-21", "cell-27", "plot-4", "conclusion-2"],
   "uncertainty": "The available property dataset covers 300-900 K but has limited data points between 700-800 K. Interpolation accuracy in this subrange is uncertain.",
   "confidence": 0.92
 }
@@ -75,7 +75,7 @@ to compare its predictions against reference data.
       "tradeoffs": "More informative assessment of model capability, but requires subjective judgment about what constitutes adequate agreement."
     }
   ],
-  "affected_artifacts": ["validation-check-v03", "conclusion-3"],
+  "affectedArtifacts": ["validation-check-v03", "conclusion-3"],
   "uncertainty": "No project-specific validation standard has been established. The appropriate criterion depends on the intended use, which is itself a separate judgment.",
   "confidence": 0.88
 }

@@ -119,7 +119,7 @@ technologies used by this project, verified before implementation began.
    @modelcontextprotocol/sdk package is in maintenance mode. This project
    targets the split packages (@modelcontextprotocol/server, /client, /core).
 
-3. **TypeScript 7.0.2 peer dependency warnings**. Some packages declare
+3. **TypeScript 7.0 peer dependency warnings**. Some packages declare
    TypeScript peer dependency ranges that do not yet include version 7.x.
    These warnings do not affect functionality but may appear during
    installation.

@@ -19,7 +19,7 @@
         "tradeoffs": "Highlights deviation from the center value. May overemphasize regions near the center point."
       }
     ],
-    "affected_artifacts": ["plot-4"],
+    "affectedArtifacts": ["plot-4"],
     "uncertainty": "None. Both color maps display the same underlying data.",
     "confidence": 0.3
   },

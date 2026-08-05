@@ -402,7 +402,7 @@ Several MCP protocol features are not yet fully implemented or are isolated from
 
 2. **Roots.** The MCP roots capability is not used. The server does not declare file system roots through MCP.
 
-3. **Logging.** The MCP logging capability provides basic structured logging. It does not currently integrate with the Judgment Event log. MCP-level logs and Judgment Events are separate streams.
+3. **Logging.** The MCP logging capability is deprecated in the 2026-07-28 specification. Implementations should migrate to stderr or OpenTelemetry for structured logging. MCP-level logs and Judgment Events are separate streams.
 
 4. **Completion.** The MCP completion capability is not currently implemented. The server does not provide argument completion suggestions for tools.
 

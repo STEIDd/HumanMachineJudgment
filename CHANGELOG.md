@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Project roadmap (`ROADMAP.md`).
 - Package scaffolding for `judgment-core`, `judgment-schemas`, `judgment-sdk`, `judgment-mcp`, `judgment-langgraph`, `judgment-storage-memory`, `judgment-storage-sqlite`, and `judgment-ui`.
 - Application scaffolding for `reference-demo`, `reference-server`, and `documentation`.
-- Agent Skill definitions for technical judgment review and dependency tracing.
+- Agent Skill definition for technical judgment review.
 - Evaluation framework scaffolding with fixtures, interruption burden, trigger detection, and workflow comparison directories.
 - Architecture decision records in `docs/decisions/`.
 - Root-level development scripts for build, test, lint, format, typecheck, and validate.

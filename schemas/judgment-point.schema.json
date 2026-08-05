@@ -353,10 +353,30 @@
           "format": "date-time"
         },
         "previousStatus": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "candidate",
+            "pending",
+            "investigating",
+            "resolved",
+            "delegated",
+            "stale",
+            "reopened",
+            "dismissed"
+          ]
         },
         "newStatus": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "candidate",
+            "pending",
+            "investigating",
+            "resolved",
+            "delegated",
+            "stale",
+            "reopened",
+            "dismissed"
+          ]
         },
         "reason": {
           "type": "string",

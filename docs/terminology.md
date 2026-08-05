@@ -80,7 +80,7 @@ This document defines every key term used in the Human-Machine Judgment project.
 
 **Definition.** An integer between 0 and 18, computed as the sum of six materiality dimension scores (each ranging from 0 to 3). The aggregate score provides a single numeric measure that policies and rules use to determine intervention levels.
 
-**Usage context.** A materiality score of 4 might map to the `disclose` intervention level, while a score of 12 might map to `require-investigation`. The exact thresholds are configured through policies and are subject to calibration as the system is used.
+**Usage context.** A materiality score of 3 might map to the `trace` intervention level, while a score of 14 might map to `require-investigation`. The exact thresholds are configured through policies and are subject to calibration as the system is used.
 
 ---
 

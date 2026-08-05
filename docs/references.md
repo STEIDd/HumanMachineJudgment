@@ -161,7 +161,7 @@ This document lists the official primary sources referenced throughout the Human
 ### TypeScript Documentation
 
 - **Title:** TypeScript Documentation
-- **Version:** 7.x
+- **Version:** 6.0.3
 - **Publisher:** Microsoft
 - **URL:** https://www.typescriptlang.org/docs/
 - **Relevance:** All source code in the project is written in TypeScript with strict mode enabled. The `tsconfig.base.json` at the repository root defines shared compiler options, and each package extends this base configuration.
@@ -177,7 +177,7 @@ This document lists the official primary sources referenced throughout the Human
 ### Vite Documentation
 
 - **Title:** Vite Documentation
-- **Version:** Current (v6.x)
+- **Version:** 7.x
 - **Publisher:** Vite project
 - **URL:** https://vite.dev/
 - **Relevance:** The reference demonstration application (`apps/reference-demo`) and the documentation site (`apps/documentation`) use Vite as their build tool and development server.

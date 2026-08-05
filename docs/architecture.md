@@ -221,17 +221,17 @@ The system does not depend on any specific AI model provider. When model-assiste
 | -------------------------- | ------------------------- | ------------------ |
 | Runtime                    | Node.js                   | 22 LTS             |
 | Package manager            | pnpm                      | >= 10.0.0          |
-| Language                   | TypeScript                | strict mode        |
+| Language                   | TypeScript                | 6.0.3 (strict)     |
 | UI framework               | React                     | 19.x               |
-| Build tool                 | Vite                      | Current            |
-| HTTP server                | Fastify                   | Current            |
+| Build tool                 | Vite                      | 7.x                |
+| HTTP server                | Fastify                   | 5.x                |
 | Local database             | SQLite                    | Via better-sqlite3 |
-| Unit and integration tests | Vitest                    | Current            |
-| End-to-end tests           | Playwright                | Current            |
-| Schema format              | JSON Schema Draft 2020-12 | Current            |
+| Unit and integration tests | Vitest                    | 4.x                |
+| End-to-end tests           | Playwright                | To be added        |
+| Schema format              | JSON Schema Draft 2020-12 | 2020-12            |
 | MCP protocol               | Model Context Protocol    | 2026-07-28         |
-| Linting                    | ESLint                    | Current            |
-| Formatting                 | Prettier                  | Current            |
+| Linting                    | ESLint                    | 10.x               |
+| Formatting                 | Prettier                  | 3.x                |
 | License                    | Apache-2.0                | N/A                |
 
 TypeScript is configured in strict mode across all packages. Each package has its own `tsconfig.json` that extends the shared `tsconfig.base.json` at the repository root. Build configurations (`tsconfig.build.json`) are separate from development configurations to support different output targets.
@@ -266,4 +266,4 @@ Several design constraints guide architectural decisions:
 
 4. **Deterministic by default.** Detection, policy evaluation, and lifecycle transitions are deterministic operations. Given the same inputs, they produce the same outputs. Model-assisted features are the only non-deterministic components, and they are always optional.
 
-5. **Offline capable.** The system must function without network access. The SQLite storage adapter, local detection rules, and local policy evaluation all work offline.
+5. **Offline capable.** The core system must function without network access. The SQLite storage adapter, local detection rules, and local policy evaluation all work offline. Features that require external services (such as MCP transport over HTTP or model-assisted detection) are not available offline, but the core lifecycle and storage operations do not require network connectivity.

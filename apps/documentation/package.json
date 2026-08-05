@@ -2,6 +2,7 @@
   "name": "@human-machine-judgment/documentation",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
   "description": "Documentation site for the Judgment-Centered Computing project.",
   "type": "module",
   "scripts": {
