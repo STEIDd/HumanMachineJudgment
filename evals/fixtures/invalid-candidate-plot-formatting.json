@@ -1,0 +1,37 @@
+{
+  "description": "An incorrectly flagged candidate for a plot formatting choice. This should NOT be promoted to a Judgment Point because the choice does not materially affect the analysis results or conclusions.",
+  "expectedResult": "dismiss",
+  "candidate": {
+    "category": "parameter",
+    "question": "Should the temperature contour plot use a sequential or diverging color map?",
+    "reason": "The color map affects how temperature gradients are visually perceived in the output plot.",
+    "alternatives": [
+      {
+        "id": "sequential",
+        "label": "Sequential color map",
+        "description": "Use a single-hue sequential color map (e.g., viridis) for the temperature contour.",
+        "tradeoffs": "Good for showing magnitude progression. May make it harder to identify the exact boundary between high and low temperature regions."
+      },
+      {
+        "id": "diverging",
+        "label": "Diverging color map",
+        "description": "Use a diverging color map centered on the mean temperature.",
+        "tradeoffs": "Highlights deviation from the center value. May overemphasize regions near the center point."
+      }
+    ],
+    "affected_artifacts": ["plot-4"],
+    "uncertainty": "None. Both color maps display the same underlying data.",
+    "confidence": 0.3
+  },
+  "expectedMateriality": {
+    "methodologicalDiscretion": 0,
+    "downstreamInfluence": 0,
+    "uncertainty": 0,
+    "consequence": 0,
+    "reversibility": 0,
+    "accountabilityRequirement": 0,
+    "expectedScore": 0,
+    "expectedIntervention": "trace"
+  },
+  "dismissalReason": "Plot formatting choices do not affect analysis results, conclusions, or validity. This is a presentation decision, not a consequential technical choice."
+}

@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/STEIDd/HumanMachineJudgment/schemas/judgment-policy.schema.json",
+  "title": "JudgmentPolicy",
+  "description": "A Judgment Policy defines when work may proceed, when it must pause, when comparison is required, and when choices may be delegated. Policies govern the behavior of the Judgment Points system by mapping conditions to intervention levels and authority modes.",
+  "type": "object",
+  "required": [
+    "id",
+    "projectId",
+    "name",
+    "description",
+    "scope",
+    "rules",
+    "priority",
+    "enabled",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this policy."
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Identifier of the project this policy belongs to."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name for this policy."
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of what this policy governs and why it exists."
+    },
+    "scope": {
+      "$ref": "#/$defs/PolicyScope",
+      "description": "Defines which Judgment Points this policy applies to, based on categories, trigger sources, artifact types, or materiality thresholds."
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PolicyRule"
+      },
+      "minItems": 1,
+      "description": "Ordered list of rules within this policy. Rules are evaluated in order; the first matching rule determines the outcome."
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Precedence ordering for this policy. Lower numbers indicate higher priority. When multiple policies match a Judgment Point, the one with the lowest priority value takes precedence."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether this policy is currently active. Disabled policies are retained for audit purposes but are not evaluated."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this policy was first created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this policy was last modified."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "PolicyScope": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "objective",
+              "framing",
+              "assumption",
+              "method",
+              "data",
+              "parameter",
+              "validation",
+              "interpretation"
+            ]
+          },
+          "description": "Judgment Point categories this policy applies to. If omitted, applies to all categories."
+        },
+        "triggerSources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["agent", "rule", "skill", "tool", "user", "dependency-change"]
+          },
+          "description": "Trigger sources this policy applies to. If omitted, applies to all trigger sources."
+        },
+        "artifactTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cell",
+              "parameter",
+              "model",
+              "plot",
+              "conclusion",
+              "dataset",
+              "standard",
+              "requirement",
+              "document",
+              "computation"
+            ]
+          },
+          "description": "Artifact types this policy applies to. If omitted, applies to all artifact types."
+        },
+        "materialityScoreMin": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18,
+          "description": "Minimum materiality score for this policy to apply. If omitted, no lower bound."
+        },
+        "materialityScoreMax": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18,
+          "description": "Maximum materiality score for this policy to apply. If omitted, no upper bound."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Defines the scope of Judgment Points this policy covers. All specified conditions must be met (logical AND). Omitted conditions match everything."
+    },
+    "PolicyRule": {
+      "type": "object",
+      "required": ["id", "condition", "intervention"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this rule within the policy."
+        },
+        "condition": {
+          "$ref": "#/$defs/RuleCondition",
+          "description": "The condition that must be satisfied for this rule to apply."
+        },
+        "intervention": {
+          "type": "string",
+          "enum": ["trace", "disclose", "pause", "require-investigation"],
+          "description": "The intervention level to apply when this rule matches. 'trace' logs the decision silently. 'disclose' surfaces the decision to the user without blocking. 'pause' halts execution until the decision is resolved. 'require-investigation' halts execution and mandates structured comparison of alternatives before resolution."
+        },
+        "authorityOverride": {
+          "$ref": "#/$defs/AuthorityOverride",
+          "description": "Optional override to the default authority mode when this rule matches."
+        },
+        "delegationConditions": {
+          "$ref": "#/$defs/DelegationConditions",
+          "description": "Conditions under which automated or delegated resolution is permitted for this rule."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of what this rule does and why."
+        }
+      },
+      "additionalProperties": false
+    },
+    "RuleCondition": {
+      "type": "object",
+      "properties": {
+        "materialityScoreMin": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18,
+          "description": "Minimum aggregate materiality score for this condition to match."
+        },
+        "materialityScoreMax": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18,
+          "description": "Maximum aggregate materiality score for this condition to match."
+        },
+        "dimensionThresholds": {
+          "type": "object",
+          "properties": {
+            "methodologicalDiscretion": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "downstreamInfluence": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "uncertainty": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "consequence": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "reversibility": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "accountabilityRequirement": { "type": "integer", "minimum": 0, "maximum": 3 }
+          },
+          "additionalProperties": false,
+          "description": "If any specified dimension meets or exceeds its threshold, this condition matches."
+        },
+        "hardTrigger": {
+          "type": "string",
+          "description": "A hard trigger rule name. If the Judgment Point was created by this hard trigger, the condition matches regardless of score."
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "objective",
+              "framing",
+              "assumption",
+              "method",
+              "data",
+              "parameter",
+              "validation",
+              "interpretation"
+            ]
+          },
+          "description": "If specified, the Judgment Point's category must be in this list for the condition to match."
+        },
+        "expression": {
+          "type": "string",
+          "description": "An optional free-form expression for advanced condition matching. Implementations may support a domain-specific language for complex conditions."
+        }
+      },
+      "additionalProperties": false,
+      "description": "A condition evaluated against a Judgment Point to determine whether a policy rule applies. All specified fields must match (logical AND). Omitted fields are not evaluated."
+    },
+    "AuthorityOverride": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["human", "collaborative", "delegated", "rule"],
+          "description": "The authority mode to apply when this rule matches."
+        },
+        "actorId": {
+          "type": "string",
+          "description": "Specific actor to assign authority to, if applicable."
+        },
+        "policyId": {
+          "type": "string",
+          "description": "Delegation policy identifier, if the mode is 'delegated'."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Overrides the default authority assignment for Judgment Points matching this rule."
+    },
+    "DelegationConditions": {
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "type": "boolean",
+          "description": "Whether delegation is permitted at all for this rule.",
+          "default": false
+        },
+        "maxMaterialityScore": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18,
+          "description": "Maximum materiality score for which delegation is allowed."
+        },
+        "requiredConfidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Minimum detector confidence required for delegation (0.0 to 1.0)."
+        },
+        "excludedCategories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "objective",
+              "framing",
+              "assumption",
+              "method",
+              "data",
+              "parameter",
+              "validation",
+              "interpretation"
+            ]
+          },
+          "description": "Categories for which delegation is never permitted, even if other conditions are met."
+        },
+        "requiresPriorHumanResolution": {
+          "type": "boolean",
+          "description": "If true, delegation is only allowed if a materially similar Judgment Point was previously resolved by a human.",
+          "default": false
+        },
+        "auditRequired": {
+          "type": "boolean",
+          "description": "If true, delegated resolutions must be flagged for subsequent human audit.",
+          "default": true
+        }
+      },
+      "additionalProperties": false,
+      "description": "Conditions that must be met for automated or delegated resolution to be permitted."
+    }
+  }
+}

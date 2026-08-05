@@ -1,0 +1,377 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/STEIDd/HumanMachineJudgment/schemas/judgment-point.schema.json",
+  "title": "JudgmentPoint",
+  "description": "A durable, machine-readable record of a consequential choice in a technical workflow. A Judgment Point surfaces a decision, supports investigation and comparison, records an authorized resolution, and connects the resolution to the work that depends on it.",
+  "type": "object",
+  "required": [
+    "id",
+    "projectId",
+    "category",
+    "question",
+    "context",
+    "trigger",
+    "materiality",
+    "status",
+    "alternatives",
+    "affectedArtifactIds",
+    "authority",
+    "validityConditions",
+    "reopenConditions",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this Judgment Point."
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Identifier of the project this Judgment Point belongs to."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "objective",
+        "framing",
+        "assumption",
+        "method",
+        "data",
+        "parameter",
+        "validation",
+        "interpretation"
+      ],
+      "description": "The category of technical choice this Judgment Point represents."
+    },
+    "question": {
+      "type": "string",
+      "description": "The specific question being decided. Should describe the choice clearly enough that a reviewer can understand it without additional context."
+    },
+    "context": {
+      "type": "string",
+      "description": "Background information explaining why this choice has arisen and what circumstances surround it."
+    },
+    "trigger": {
+      "$ref": "#/$defs/JudgmentTrigger",
+      "description": "How this Judgment Point was detected or created."
+    },
+    "materiality": {
+      "$ref": "#/$defs/MaterialityAssessment",
+      "description": "The materiality assessment that determined the intervention level for this choice."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "candidate",
+        "pending",
+        "investigating",
+        "resolved",
+        "delegated",
+        "stale",
+        "reopened",
+        "dismissed"
+      ],
+      "description": "Current lifecycle status of this Judgment Point."
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/JudgmentAlternative"
+      },
+      "description": "The defensible alternatives available for this choice."
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "artifact-reference.schema.json"
+      },
+      "description": "References to evidence, data, standards, or other artifacts that inform this choice.",
+      "default": []
+    },
+    "affectedArtifactIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Identifiers of artifacts (cells, parameters, models, plots, conclusions) that depend on this decision."
+    },
+    "authority": {
+      "$ref": "#/$defs/JudgmentAuthority",
+      "description": "Who or what is authorized to resolve this Judgment Point."
+    },
+    "resolution": {
+      "$ref": "#/$defs/JudgmentResolution",
+      "description": "The resolution of this Judgment Point, if one has been recorded."
+    },
+    "validityConditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions under which this resolution remains valid. If any condition is no longer met, the resolution may become stale."
+    },
+    "reopenConditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions that should trigger a review of this decision."
+    },
+    "revisionHistory": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/JudgmentRevision"
+      },
+      "description": "History of changes to this Judgment Point's resolution.",
+      "default": []
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this Judgment Point was first created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this Judgment Point was last modified."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "JudgmentTrigger": {
+      "type": "object",
+      "required": ["source", "description"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["agent", "rule", "skill", "tool", "user", "dependency-change"],
+          "description": "What detected or initiated this candidate."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of what triggered detection."
+        },
+        "hardTrigger": {
+          "type": "string",
+          "description": "If a hard trigger rule matched, which rule it was."
+        },
+        "ruleId": {
+          "type": "string",
+          "description": "Identifier of the rule or policy that triggered detection."
+        }
+      },
+      "additionalProperties": false
+    },
+    "MaterialityAssessment": {
+      "type": "object",
+      "required": ["score", "dimensions"],
+      "properties": {
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18,
+          "description": "Aggregate materiality score (sum of six dimensions, each 0-3)."
+        },
+        "dimensions": {
+          "type": "object",
+          "required": [
+            "methodologicalDiscretion",
+            "downstreamInfluence",
+            "uncertainty",
+            "consequence",
+            "reversibility",
+            "accountabilityRequirement"
+          ],
+          "properties": {
+            "methodologicalDiscretion": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "downstreamInfluence": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "uncertainty": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "consequence": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "reversibility": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "accountabilityRequirement": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            }
+          },
+          "additionalProperties": false,
+          "description": "Individual materiality dimension scores."
+        },
+        "detectorConfidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence of the detector in its assessment (0.0 to 1.0). Optional when assessment is manual."
+        },
+        "hardTrigger": {
+          "type": "string",
+          "description": "If a hard trigger rule applied, overriding the score-based intervention."
+        },
+        "interventionLevel": {
+          "type": "string",
+          "enum": ["trace", "disclose", "pause", "require-investigation"],
+          "description": "The intervention level determined by the materiality score and applicable policies."
+        }
+      },
+      "additionalProperties": false
+    },
+    "JudgmentAlternative": {
+      "type": "object",
+      "required": ["id", "label", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this alternative within the Judgment Point."
+        },
+        "label": {
+          "type": "string",
+          "description": "Short label for this alternative."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what this alternative entails."
+        },
+        "tradeoffs": {
+          "type": "string",
+          "description": "Known tradeoffs or consequences of selecting this alternative."
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "artifact-reference.schema.json"
+          },
+          "description": "References to evidence supporting or relevant to this alternative."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["agent", "user", "standard", "prior-decision"],
+          "description": "Who or what proposed this alternative."
+        },
+        "comparisonData": {
+          "type": "object",
+          "description": "Structured data from a comparison calculation, if one was performed.",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "JudgmentAuthority": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["human", "collaborative", "delegated", "rule"],
+          "description": "How resolution authority is assigned. 'human' requires direct human decision. 'collaborative' involves human and agent working together. 'delegated' allows agent resolution under an explicit policy. 'rule' indicates resolution by an external standard or requirement."
+        },
+        "actorId": {
+          "type": "string",
+          "description": "Identifier of the person or agent authorized to resolve."
+        },
+        "policyId": {
+          "type": "string",
+          "description": "Identifier of the delegation policy that authorizes resolution, if applicable."
+        }
+      },
+      "additionalProperties": false
+    },
+    "JudgmentResolution": {
+      "type": "object",
+      "required": ["selectedAlternativeId", "rationale", "resolvedAt"],
+      "properties": {
+        "selectedAlternativeId": {
+          "type": "string",
+          "description": "Identifier of the chosen alternative."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Concise explanation of why this alternative was selected."
+        },
+        "uncertainty": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Known uncertainties or unknowns at the time of resolution.",
+          "default": []
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions applied to this resolution (e.g., 'Use source data covering 300-900 K').",
+          "default": []
+        },
+        "validationRequirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Validation steps required after this resolution is applied.",
+          "default": []
+        },
+        "resolvedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the resolution was recorded."
+        },
+        "resolvedBy": {
+          "type": "string",
+          "description": "Identifier of the person or policy that resolved this."
+        }
+      },
+      "additionalProperties": false
+    },
+    "JudgmentRevision": {
+      "type": "object",
+      "required": ["timestamp", "previousStatus", "newStatus", "reason"],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "previousStatus": {
+          "type": "string"
+        },
+        "newStatus": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why this revision occurred."
+        },
+        "previousResolution": {
+          "$ref": "#/$defs/JudgmentResolution",
+          "description": "The resolution before this revision, if applicable."
+        },
+        "actorId": {
+          "type": "string",
+          "description": "Who initiated this revision."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

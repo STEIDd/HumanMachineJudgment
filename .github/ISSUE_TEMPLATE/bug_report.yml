@@ -1,0 +1,109 @@
+name: Bug Report
+description: Report a bug in Human-Machine Judgment.
+title: '[Bug]: '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Fill out the fields below with as much detail as possible.
+
+        If this is a security vulnerability, do not use this form. Follow the process described in [SECURITY.md](../../SECURITY.md) instead.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear description of the bug.
+      placeholder: Describe what is wrong.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: The exact steps to reproduce the bug.
+      placeholder: |
+        1. Run the command '...'
+        2. Open the file '...'
+        3. Observe the error '...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen.
+      placeholder: Describe the correct behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened. Include error messages, stack traces, or screenshots if available.
+      placeholder: Describe what happened instead.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package Affected
+      description: Which package is affected by this bug?
+      options:
+        - judgment-core
+        - judgment-schemas
+        - judgment-sdk
+        - judgment-mcp
+        - judgment-langgraph
+        - judgment-storage-memory
+        - judgment-storage-sqlite
+        - judgment-ui
+        - reference-demo
+        - reference-server
+        - documentation
+        - schemas (standalone)
+        - evals
+        - skills
+        - Other / Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: Your operating system and version.
+      placeholder: 'e.g., Windows 11, macOS 14.5, Ubuntu 24.04'
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version
+      description: Output of `node --version`.
+      placeholder: 'e.g., v22.4.0'
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: If the bug involves a browser-based component, specify the browser and version. Leave blank if not applicable.
+      placeholder: 'e.g., Chrome 126, Firefox 128, Safari 17.5'
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that might help diagnose the bug, such as configuration details, related issues, or workarounds you have tried.
+    validations:
+      required: false

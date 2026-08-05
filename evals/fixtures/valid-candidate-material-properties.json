@@ -1,0 +1,36 @@
+{
+  "description": "A correctly identified Judgment Candidate for material property treatment in thermal analysis.",
+  "expectedResult": "promote",
+  "candidate": {
+    "category": "assumption",
+    "question": "Should material properties be treated as constant or temperature-dependent for this thermal stress analysis?",
+    "reason": "The predicted temperature range (300-850 K) crosses a region where the yield strength of the nickel-based alloy decreases by approximately 40%. Using constant properties evaluated at a single temperature would not capture this variation and could lead to unconservative stress predictions.",
+    "alternatives": [
+      {
+        "id": "constant",
+        "label": "Constant properties",
+        "description": "Use material properties evaluated at a single reference temperature (e.g., room temperature or the mean operating temperature).",
+        "tradeoffs": "Simpler implementation and faster computation. May underestimate thermal strain at elevated temperatures and overestimate material strength, leading to potentially unconservative results."
+      },
+      {
+        "id": "temperature-dependent",
+        "label": "Temperature-dependent properties",
+        "description": "Use interpolated material properties as a function of temperature from the validated source dataset covering 300-900 K.",
+        "tradeoffs": "More physically representative across the full temperature range. Requires validated property data and increases computational cost. Interpolation accuracy between sparse data points introduces additional uncertainty."
+      }
+    ],
+    "affected_artifacts": ["cell-21", "cell-27", "plot-4", "validation-check-v03", "conclusion-2"],
+    "uncertainty": "The available property dataset covers 300-900 K but has only three data points between 700-800 K. Interpolation accuracy in this subrange has not been independently verified.",
+    "confidence": 0.92
+  },
+  "expectedMateriality": {
+    "methodologicalDiscretion": 2,
+    "downstreamInfluence": 3,
+    "uncertainty": 2,
+    "consequence": 2,
+    "reversibility": 1,
+    "accountabilityRequirement": 2,
+    "expectedScore": 12,
+    "expectedIntervention": "pause"
+  }
+}

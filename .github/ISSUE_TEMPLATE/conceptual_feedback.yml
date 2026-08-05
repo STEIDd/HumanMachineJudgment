@@ -1,0 +1,63 @@
+name: Conceptual Feedback
+description: Provide feedback on the judgment point specification, design decisions, or conceptual direction.
+title: '[Feedback]: '
+labels: ['conceptual-feedback']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to raise questions, concerns, or suggestions about the judgment point specification, design decisions, or conceptual direction of the project.
+
+        Conceptual disagreements are treated as technical discussions and evaluated on reasoning and evidence. See [GOVERNANCE.md](../../GOVERNANCE.md) for how specification decisions are made.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area of the Specification
+      description: Which part of the specification or design does this feedback address?
+      options:
+        - Judgment point definition and structure
+        - Judgment categories and classification
+        - Policy rules and evaluation criteria
+        - Resolution flow and lifecycle
+        - Schema design and data model
+        - Storage and persistence model
+        - Agent integration patterns
+        - MCP tool and resource design
+        - Agent Skill definitions
+        - Evaluation methodology
+        - Accessibility approach
+        - Overall architecture
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+      description: Describe your feedback, concern, or disagreement. Explain the reasoning behind your position.
+      placeholder: |
+        What aspect of the current design are you addressing?
+        What is your concern or observation?
+        What evidence or reasoning supports your position?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-alternative
+    attributes:
+      label: Proposed Alternative
+      description: If you have a specific alternative in mind, describe it here. This is optional but helpful.
+      placeholder: |
+        Describe what you would change and why you believe it would be an improvement.
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to papers, specifications, implementations, or discussions that support your feedback.
+    validations:
+      required: false

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/STEIDd/HumanMachineJudgment/schemas/judgment-event.schema.json",
+  "title": "JudgmentEvent",
+  "description": "An immutable event in the Judgment Point lifecycle. Events form the append-only audit log that records every state transition and significant action taken on a Judgment Point. Events are never modified or deleted once created.",
+  "type": "object",
+  "required": [
+    "id",
+    "judgmentPointId",
+    "projectId",
+    "eventType",
+    "timestamp",
+    "actorId",
+    "actorType"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this event."
+    },
+    "judgmentPointId": {
+      "type": "string",
+      "description": "Identifier of the Judgment Point this event belongs to."
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Identifier of the project this event belongs to."
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "created",
+        "promoted",
+        "investigation-started",
+        "resolution-recorded",
+        "delegated",
+        "dismissed",
+        "reopened",
+        "marked-stale",
+        "dependency-changed",
+        "artifact-linked",
+        "artifact-unlinked",
+        "alternative-added",
+        "comparison-requested",
+        "comparison-completed",
+        "validity-condition-changed"
+      ],
+      "description": "The type of lifecycle event. 'created' indicates initial detection as a candidate. 'promoted' indicates the candidate was promoted to a pending Judgment Point. 'investigation-started' indicates structured investigation of alternatives has begun. 'resolution-recorded' indicates a resolution was recorded. 'delegated' indicates resolution authority was delegated. 'dismissed' indicates the Judgment Point was dismissed as not requiring a decision. 'reopened' indicates a previously resolved or dismissed Judgment Point was reopened. 'marked-stale' indicates conditions have changed such that the resolution may no longer be valid. 'dependency-changed' indicates an upstream dependency has changed. 'artifact-linked' indicates an artifact was linked to this Judgment Point. 'artifact-unlinked' indicates an artifact was unlinked from this Judgment Point. 'alternative-added' indicates a new alternative was added. 'comparison-requested' indicates a structured comparison of alternatives was requested. 'comparison-completed' indicates a structured comparison of alternatives was completed. 'validity-condition-changed' indicates a validity condition was added, removed, or modified."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this event occurred. Events are ordered by timestamp within a Judgment Point's lifecycle."
+    },
+    "actorId": {
+      "type": "string",
+      "description": "Identifier of the user, agent, system component, or policy that caused this event."
+    },
+    "actorType": {
+      "type": "string",
+      "enum": ["user", "agent", "system", "policy"],
+      "description": "The type of actor that caused this event. 'user' is a human user. 'agent' is an AI agent or assistant. 'system' is an automated system component. 'policy' is an automated policy engine applying rules."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event-specific data. The structure of the payload depends on the eventType. For 'created', this may include the initial trigger and materiality assessment. For 'resolution-recorded', this includes the resolution details. For 'artifact-linked', this includes the artifact reference.",
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "Identifier to correlate this event with other events in the same logical operation."
+        },
+        "sessionId": {
+          "type": "string",
+          "description": "Identifier of the user or agent session during which this event occurred."
+        },
+        "toolName": {
+          "type": "string",
+          "description": "Name of the tool or skill that was executing when this event occurred."
+        },
+        "policyId": {
+          "type": "string",
+          "description": "Identifier of the policy that governed this event, if applicable."
+        },
+        "previousStatus": {
+          "type": "string",
+          "description": "The Judgment Point's status before this event."
+        },
+        "newStatus": {
+          "type": "string",
+          "description": "The Judgment Point's status after this event."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Free-form notes or additional context about this event."
+        }
+      },
+      "additionalProperties": true,
+      "description": "Optional additional context about this event. Metadata fields are not part of the core event model but provide useful information for debugging, auditing, and analysis."
+    }
+  },
+  "additionalProperties": false
+}

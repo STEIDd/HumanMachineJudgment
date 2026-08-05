@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/STEIDd/HumanMachineJudgment/schemas/artifact-reference.schema.json",
+  "title": "ArtifactReference",
+  "description": "A reference to an artifact (code cell, parameter, model, plot, conclusion, etc.) that is affected by or informs a Judgment Point. Artifact references establish the traceability link between decisions and the technical work they govern.",
+  "type": "object",
+  "required": ["id", "artifactType", "label", "relationship"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this artifact reference."
+    },
+    "artifactType": {
+      "type": "string",
+      "enum": [
+        "cell",
+        "parameter",
+        "model",
+        "plot",
+        "conclusion",
+        "dataset",
+        "standard",
+        "requirement",
+        "document",
+        "computation"
+      ],
+      "description": "The type of artifact being referenced."
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable name or label for this artifact."
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "filePath": {
+          "type": "string",
+          "description": "Path to the file containing this artifact, relative to the project root."
+        },
+        "cellId": {
+          "type": "string",
+          "description": "Identifier of the notebook cell, if the artifact is within a notebook."
+        },
+        "lineRange": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Starting line number (1-based, inclusive)."
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Ending line number (1-based, inclusive)."
+            }
+          },
+          "required": ["start", "end"],
+          "additionalProperties": false,
+          "description": "Line range within the file, if applicable."
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI to the artifact, if it is externally hosted or has a canonical address."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Location information for this artifact. All fields are optional to accommodate different artifact types."
+    },
+    "relationship": {
+      "type": "string",
+      "enum": ["depends-on", "informs", "produced-by", "validates", "contradicts"],
+      "description": "The relationship between the Judgment Point and this artifact. 'depends-on' means the artifact's correctness depends on the judgment. 'informs' means the artifact provides evidence for the judgment. 'produced-by' means the artifact was generated as a result of the judgment. 'validates' means the artifact validates the judgment's resolution. 'contradicts' means the artifact provides evidence against a particular alternative or the current resolution."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional human-readable description of how this artifact relates to the Judgment Point."
+    }
+  },
+  "additionalProperties": false
+}

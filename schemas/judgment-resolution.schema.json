@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/STEIDd/HumanMachineJudgment/schemas/judgment-resolution.schema.json",
+  "title": "JudgmentResolution",
+  "description": "A standalone resolution record that captures the outcome of a judgment decision. This schema can be used independently from the full Judgment Point to represent resolution data in contexts such as audit logs, delegation records, and cross-system integrations. It extends the embedded resolution within a Judgment Point with additional fields that support accountability and bias-awareness.",
+  "type": "object",
+  "required": [
+    "selectedAlternativeId",
+    "rationale",
+    "resolvedAt",
+    "resolutionType",
+    "alternativesConsidered",
+    "recommendationShown"
+  ],
+  "properties": {
+    "selectedAlternativeId": {
+      "type": "string",
+      "description": "Identifier of the chosen alternative from the Judgment Point's alternatives list."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Concise explanation of why this alternative was selected. Should be substantive enough for a reviewer to understand the reasoning without needing to reconstruct the original context."
+    },
+    "uncertainty": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Known uncertainties or unknowns at the time of resolution. Each entry describes a specific area where information was incomplete or where the outcome is not fully predictable.",
+      "default": []
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions or constraints applied to this resolution. These are specific requirements that bound how the resolution should be implemented (e.g., 'Use source data covering 300-900 K', 'Re-evaluate if sample size exceeds 10,000').",
+      "default": []
+    },
+    "validationRequirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Validation steps required after this resolution is applied. Each entry describes a check or test that must be performed to confirm the resolution produces acceptable results.",
+      "default": []
+    },
+    "resolvedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the resolution was recorded."
+    },
+    "resolvedBy": {
+      "type": "string",
+      "description": "Identifier of the person, agent, or policy that recorded this resolution."
+    },
+    "resolutionType": {
+      "type": "string",
+      "enum": ["direct-human", "collaborative", "delegated", "rule-based", "inherited"],
+      "description": "How this resolution was produced. 'direct-human' means a human made the decision without AI input. 'collaborative' means a human decided after reviewing AI-generated analysis or recommendations. 'delegated' means an agent resolved under an explicit delegation policy. 'rule-based' means the resolution was determined by a predefined rule or standard. 'inherited' means the resolution was carried over from a prior decision on a materially similar Judgment Point."
+    },
+    "informationPresented": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Descriptions of what information was shown to the decision-maker before the resolution was recorded. This supports accountability by documenting the informational basis of the decision.",
+      "default": []
+    },
+    "alternativesConsidered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Identifiers of all alternatives that were reviewed before making this resolution. Must include at least the selected alternative."
+    },
+    "initialPosition": {
+      "type": "string",
+      "description": "The decision-maker's stated position before seeing AI recommendations or structured comparison data. Capturing this supports detection of anchoring bias and ensures the record reflects independent judgment."
+    },
+    "recommendationShown": {
+      "type": "boolean",
+      "description": "Whether an AI-generated recommendation was displayed to the decision-maker before resolution. This field is critical for bias-awareness: when true, the resolution should be evaluated with awareness that the recommendation may have influenced the decision."
+    }
+  },
+  "additionalProperties": false
+}

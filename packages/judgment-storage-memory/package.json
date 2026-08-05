@@ -1,0 +1,33 @@
+{
+  "name": "@human-machine-judgment/storage-memory",
+  "version": "0.1.0",
+  "description": "In-memory storage adapter for Judgment Points. Suitable for tests and deterministic demonstrations.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/STEIDd/HumanMachineJudgment.git",
+    "directory": "packages/judgment-storage-memory"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  }
+}
