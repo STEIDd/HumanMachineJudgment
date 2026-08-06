@@ -7,3 +7,6 @@
  */
 
 export const VERSION = '0.1.0';
+
+export { JudgmentClient } from './client.js';
+export type { CreateCandidateParams } from './client.js';

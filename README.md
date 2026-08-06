@@ -5,10 +5,10 @@ decision records for consequential choices in technical agent workflows.
 
 ## Project Status
 
-**Phase 1: Research, specification, and repository foundation.**
-This project is in early development. The specification, schemas, and
-package structure are established. Runtime functionality is not yet
-implemented. See [ROADMAP.md](ROADMAP.md) for planned phases.
+**Phase 2: Core runtime, storage, and API.**
+The specification, schemas, package structure, core domain logic,
+in-memory storage adapter, developer SDK, and reference HTTP API server
+are implemented. See [ROADMAP.md](ROADMAP.md) for planned phases.
 
 ## What is a Judgment Point?
 
@@ -42,9 +42,13 @@ conclusions that depend on them.
   defining primitives, lifecycle, materiality scoring, and integration protocols.
 - **JSON Schemas**: Machine-readable schemas for Judgment Points, policies,
   events, resolutions, and artifact references (JSON Schema Draft 2020-12).
-- **Package skeletons**: TypeScript packages for the core domain logic,
-  schemas, SDK, storage adapters, MCP integration, LangGraph adapter, and
-  React components.
+- **Core runtime**: TypeScript packages for the core domain logic
+  (state machine, materiality scoring, policy engine, event sourcing),
+  developer SDK, and in-memory storage adapter.
+- **Reference server**: Fastify HTTP API server with full lifecycle,
+  policy, event, and artifact endpoints.
+- **Package skeletons**: TypeScript packages for the SQLite storage adapter,
+  MCP integration, LangGraph adapter, and React components.
 - **Agent Skill**: A portable [technical-judgment-review](skills/technical-judgment-review/SKILL.md)
   skill following the Agent Skills specification.
 - **Evaluation framework**: Fixture structure for testing detection quality,
@@ -135,16 +139,16 @@ pnpm run build
 
 ## Packages
 
-| Package                                                                     | Description                                                        | Status   |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
-| [@human-machine-judgment/core](packages/judgment-core/)                     | Domain types, state machine, lifecycle, scoring, policy evaluation | Skeleton |
-| [@human-machine-judgment/schemas](packages/judgment-schemas/)               | JSON schemas and generated TypeScript types                        | Skeleton |
-| [@human-machine-judgment/sdk](packages/judgment-sdk/)                       | Programmatic API for Judgment Points                               | Skeleton |
-| [@human-machine-judgment/storage-memory](packages/judgment-storage-memory/) | In-memory storage adapter                                          | Skeleton |
-| [@human-machine-judgment/storage-sqlite](packages/judgment-storage-sqlite/) | SQLite storage adapter                                             | Skeleton |
-| [@human-machine-judgment/mcp](packages/judgment-mcp/)                       | MCP server (protocol 2026-07-28)                                   | Skeleton |
-| [@human-machine-judgment/langgraph](packages/judgment-langgraph/)           | LangGraph interrupt adapter                                        | Skeleton |
-| [@human-machine-judgment/ui](packages/judgment-ui/)                         | React components for Judgment Point UI                             | Skeleton |
+| Package                                                                     | Description                                                        | Status      |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------- |
+| [@human-machine-judgment/core](packages/judgment-core/)                     | Domain types, state machine, lifecycle, scoring, policy evaluation | Implemented |
+| [@human-machine-judgment/schemas](packages/judgment-schemas/)               | JSON schemas and generated TypeScript types                        | Implemented |
+| [@human-machine-judgment/sdk](packages/judgment-sdk/)                       | Programmatic API for Judgment Points                               | Implemented |
+| [@human-machine-judgment/storage-memory](packages/judgment-storage-memory/) | In-memory storage adapter                                          | Implemented |
+| [@human-machine-judgment/storage-sqlite](packages/judgment-storage-sqlite/) | SQLite storage adapter                                             | Skeleton    |
+| [@human-machine-judgment/mcp](packages/judgment-mcp/)                       | MCP server (protocol 2026-07-28)                                   | Skeleton    |
+| [@human-machine-judgment/langgraph](packages/judgment-langgraph/)           | LangGraph interrupt adapter                                        | Skeleton    |
+| [@human-machine-judgment/ui](packages/judgment-ui/)                         | React components for Judgment Point UI                             | Skeleton    |
 
 ## Repository Structure
 
@@ -213,8 +217,8 @@ citation information in [CITATION.cff](CITATION.cff).
 
 ## Current Limitations
 
-- No runtime functionality is implemented. All packages contain skeleton
-  code with type exports only.
+- The SQLite storage adapter, MCP server, LangGraph adapter, and React
+  UI components are not yet implemented (skeleton code only).
 - The materiality scoring thresholds are an initial hypothesis and have
   not been validated through empirical study.
 - The evaluation framework defines fixture structures but does not yet

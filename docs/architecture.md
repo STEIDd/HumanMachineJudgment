@@ -47,26 +47,24 @@ Dependencies flow in a single direction. Packages at the bottom of the graph dep
                     judgment-core
                     (no external deps)
                          |
-              +----------+-----------+
-              |                      |
-       judgment-schemas         judgment-sdk
-       (generates types)        (depends on core)
-              |                      |
-              +----------+-----------+
-                         |
          +---------------+---------------+
          |               |               |
-  judgment-mcp    judgment-langgraph   storage-*
-  (core + sdk)    (core)              (core)
+  judgment-sdk     judgment-schemas   storage-*
+  (depends on core) (standalone)      (core)
          |
-    judgment-ui
-    (core)
+  +------+------+
+  |             |
+judgment-mcp  judgment-langgraph
+(core + sdk)  (core)
+  |
+judgment-ui
+(core)
 ```
 
 The dependency rules are:
 
 1. `judgment-core` has zero external runtime dependencies. It depends only on the Node.js standard library and TypeScript's built-in types.
-2. `judgment-schemas` generates TypeScript types from the JSON Schema definitions in the `schemas/` directory. It provides validation utilities that other packages use to validate data at runtime.
+2. `judgment-schemas` contains the canonical JSON Schema definitions in the `schemas/` directory and a validation script for CI. The TypeScript types are hand-written in `judgment-core` (see ADR-004).
 3. `judgment-sdk` depends on `judgment-core` for domain types and lifecycle operations. It provides the primary programmatic interface for external consumers.
 4. `judgment-storage-memory` and `judgment-storage-sqlite` depend on `judgment-core` for the storage interface definition. They implement the interface without introducing any dependency from core back to them.
 5. `judgment-mcp` depends on `judgment-core` for domain logic and `judgment-sdk` for the client interface. It also depends on the MCP SDK (`@modelcontextprotocol/server`).
@@ -104,7 +102,7 @@ The event log stores instances of the `JudgmentEvent` schema. Each event carries
 - A unique event identifier
 - The Judgment Point identifier it belongs to
 - The project identifier
-- The event type (one of 16 defined types)
+- The event type (one of 15 defined types)
 - A timestamp
 - The actor identifier and actor type (user, agent, system, or policy)
 - An event-specific payload
@@ -118,16 +116,21 @@ When a new event is appended, the projection is updated by applying the event's 
 
 ### Storage Interface
 
-The storage interface defines the following operations:
+The storage interface (`JudgmentStorage`) defines the following operations:
 
-- **appendEvent(event)**: Append an event to the immutable log. Returns the persisted event.
-- **getEvents(judgmentPointId)**: Retrieve all events for a Judgment Point, ordered by timestamp.
-- **getEventsByProject(projectId)**: Retrieve all events for a project, ordered by timestamp.
-- **getCurrentState(judgmentPointId)**: Retrieve the current-state projection for a Judgment Point.
-- **listByProject(projectId, filters)**: List current-state projections for all Judgment Points in a project, with optional filters by status, category, or materiality score range.
-- **getDependencies(judgmentPointId)**: Retrieve artifact references and dependency relationships for a Judgment Point.
+- **appendEvent(event)**: Append an event to the immutable log.
+- **getEvents(judgmentPointId, filters?)**: Retrieve all events for a Judgment Point, with optional filters by event type, actor, or time range.
+- **getEventsByProject(projectId, filters?, offset?, limit?)**: Retrieve paginated events for a project, ordered by timestamp.
+- **getJudgmentPoint(id)**: Retrieve the current-state projection for a Judgment Point, or null if not found.
+- **getJudgmentPoints(projectId, filters?, offset?, limit?)**: List current-state projections for all Judgment Points in a project, with optional filters by status, category, materiality score range, or creation date range.
+- **saveJudgmentPoint(point)**: Persist a current-state projection (used after applying an event).
+- **savePolicy(policy)**: Create a new policy.
+- **getPolicy(id)**: Retrieve a single policy by ID.
+- **getPolicies(projectId)**: List all policies for a project.
+- **updatePolicy(policy)**: Update an existing policy.
+- **deletePolicy(id)**: Delete a policy by ID.
 
-Storage adapters implement this interface. The in-memory adapter stores data in JavaScript objects and is suitable for testing and short-lived processes. The SQLite adapter stores data in a local database file and is suitable for persistent single-user or development scenarios.
+Storage adapters implement this interface. The in-memory adapter stores data in JavaScript Maps and is suitable for testing and short-lived processes. The SQLite adapter (not yet implemented) will store data in a local database file for persistent single-user or development scenarios.
 
 ---
 
@@ -246,7 +249,7 @@ The reference demonstration is a Vite-based React application that provides an i
 
 ### Reference Server (`apps/reference-server`)
 
-The reference server is a Fastify-based HTTP server that exposes the Judgment Points API over HTTP. It uses the SQLite storage adapter for persistent storage and provides REST endpoints for creating, querying, resolving, and managing Judgment Points.
+The reference server is a Fastify-based HTTP server that exposes the Judgment Points API over HTTP. It currently uses the in-memory storage adapter and provides REST endpoints for creating, querying, resolving, and managing Judgment Points. Persistent storage via the SQLite adapter will be available in a later phase.
 
 ### Documentation Site (`apps/documentation`)
 

@@ -7,3 +7,5 @@
  */
 
 export const VERSION = '0.1.0';
+
+export { MemoryStorage } from './memory-storage.js';

@@ -96,7 +96,7 @@ The agent retrieves the thermal conductivity of 6061-T6 aluminum and prepares to
 
 ### Context
 
-The operating temperature range for this analysis spans approximately 25 degrees Celsius (ambient) to an estimated 95 degrees Celsius (near the heat source). Over this range, the thermal conductivity of 6061-T6 aluminum decreases from approximately 167 W/m-K at 25 degrees Celsius to approximately 175 W/m-K at 100 degrees Celsius. The variation is modest (approximately 5%).
+The operating temperature range for this analysis spans approximately 25 degrees Celsius (ambient) to an estimated 95 degrees Celsius (near the heat source). Over this range, the thermal conductivity of 6061-T6 aluminum increases from approximately 167 W/m-K at 25 degrees Celsius to approximately 175 W/m-K at 100 degrees Celsius. The variation is modest (approximately 5%).
 
 ### Alternatives
 

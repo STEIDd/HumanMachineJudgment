@@ -1,7 +1,7 @@
 {
   "name": "@human-machine-judgment/schemas",
   "version": "0.1.0",
-  "description": "JSON schemas and generated TypeScript types for Judgment Points interoperability.",
+  "description": "JSON schemas and schema validation for Judgment Points interoperability.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

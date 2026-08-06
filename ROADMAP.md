@@ -6,7 +6,7 @@ This document outlines the planned development phases for Human-Machine Judgment
 
 ## Phase 1: Research, Specification, and Repository Foundation
 
-**Status: In Progress**
+**Status: Complete**
 
 This phase establishes the project's conceptual foundation and repository infrastructure.
 
@@ -21,14 +21,16 @@ This phase establishes the project's conceptual foundation and repository infras
 
 ## Phase 2: Core Runtime, Schemas, Storage, and Evaluation Harness
 
-**Status: Planned**
+**Status: In Progress**
 
 This phase delivers the core libraries and storage layer that other components depend on.
 
-- Implement the core runtime (`judgment-core`) for creating, resolving, and querying judgment points.
-- Finalize and validate JSON Schema definitions (`judgment-schemas`) with comprehensive test coverage.
-- Build the developer SDK (`judgment-sdk`) with typed interfaces for working with judgment points.
-- Implement storage adapters for in-memory (`judgment-storage-memory`) and SQLite (`judgment-storage-sqlite`) backends.
+- ~~Implement the core runtime (`judgment-core`) for creating, resolving, and querying judgment points.~~
+- ~~Finalize and validate JSON Schema definitions (`judgment-schemas`) with comprehensive test coverage.~~
+- ~~Build the developer SDK (`judgment-sdk`) with typed interfaces for working with judgment points.~~
+- ~~Implement in-memory storage adapter (`judgment-storage-memory`).~~
+- ~~Build the reference HTTP API server (`reference-server`) with full lifecycle endpoints.~~
+- Implement SQLite storage adapter (`judgment-storage-sqlite`).
 - Complete the evaluation harness with support for trigger detection, interruption burden measurement, and workflow comparison.
 - Create evaluation fixtures covering common agent workflow patterns.
 - Establish schema versioning and migration tooling.

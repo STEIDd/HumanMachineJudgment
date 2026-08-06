@@ -18,6 +18,9 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
+    "@human-machine-judgment/core": "workspace:*",
+    "@human-machine-judgment/sdk": "workspace:*",
+    "@human-machine-judgment/storage-memory": "workspace:*",
     "fastify": "^5.3.3"
   },
   "devDependencies": {

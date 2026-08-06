@@ -66,6 +66,15 @@ importers:
 
   apps/reference-server:
     dependencies:
+      '@human-machine-judgment/core':
+        specifier: workspace:*
+        version: link:../../packages/judgment-core
+      '@human-machine-judgment/sdk':
+        specifier: workspace:*
+        version: link:../../packages/judgment-sdk
+      '@human-machine-judgment/storage-memory':
+        specifier: workspace:*
+        version: link:../../packages/judgment-storage-memory
       fastify:
         specifier: ^5.3.3
         version: 5.11.2
@@ -86,9 +95,21 @@ importers:
         specifier: ^4.23.6
         version: 4.23.6
 
-  packages/judgment-sdk: {}
+  packages/judgment-sdk:
+    dependencies:
+      '@human-machine-judgment/core':
+        specifier: workspace:*
+        version: link:../judgment-core
+    devDependencies:
+      '@human-machine-judgment/storage-memory':
+        specifier: workspace:*
+        version: link:../judgment-storage-memory
 
-  packages/judgment-storage-memory: {}
+  packages/judgment-storage-memory:
+    dependencies:
+      '@human-machine-judgment/core':
+        specifier: workspace:*
+        version: link:../judgment-core
 
   packages/judgment-storage-sqlite: {}
 
