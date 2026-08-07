@@ -1,0 +1,86 @@
+{
+  "scenario": "restart-resume-pending-judgment",
+  "description": "Tests the pause/resume lifecycle. A Judgment Point with 'pause' intervention level is in 'pending' status, meaning the workflow was interrupted when this point was detected. On workflow restart, the system should detect the unresolved pending point and re-interrupt execution until the point is resolved.",
+  "input": {
+    "workflowState": {
+      "projectId": "proj-reactor-vessel",
+      "sessionId": "session-2024-1203-a",
+      "lastCompletedStep": "cell-16",
+      "nextScheduledStep": "cell-17",
+      "interruptedAt": "2024-12-03T10:22:45Z",
+      "restartedAt": "2024-12-04T08:00:00Z"
+    },
+    "pendingJudgmentPoint": {
+      "id": "jp-2024-00189",
+      "projectId": "proj-reactor-vessel",
+      "category": "parameter",
+      "question": "What weld efficiency factor should be applied to the longitudinal seam weld of the reactor pressure vessel for the ASME Section VIII Division 1 stress calculation?",
+      "context": "The reactor pressure vessel is designed for 15 MPa at 350C. The longitudinal seam weld is a double-welded butt joint. The weld efficiency factor directly scales the allowable stress and therefore determines the required wall thickness. ASME Section VIII Division 1 Table UW-12 specifies joint efficiency values of 1.0, 0.85, or 0.70 depending on the degree of radiographic examination.",
+      "trigger": {
+        "source": "rule",
+        "description": "Hard trigger: agent is selecting a code-specified design parameter that directly affects structural adequacy.",
+        "hardTrigger": "safety-factor-selection"
+      },
+      "materiality": {
+        "score": 14,
+        "dimensions": {
+          "methodologicalDiscretion": 1,
+          "downstreamInfluence": 3,
+          "uncertainty": 1,
+          "consequence": 3,
+          "reversibility": 3,
+          "accountabilityRequirement": 3
+        },
+        "hardTrigger": "safety-factor-selection",
+        "interventionLevel": "pause"
+      },
+      "status": "pending",
+      "alternatives": [
+        {
+          "id": "full-rt",
+          "label": "E = 1.0 (full radiographic examination)",
+          "description": "Apply a joint efficiency of 1.0, which requires 100% radiographic examination of the longitudinal seam weld per UW-51(a).",
+          "tradeoffs": "Permits the thinnest wall (lowest material cost and weight). Requires full radiographic inspection, which increases fabrication time and NDE cost."
+        },
+        {
+          "id": "spot-rt",
+          "label": "E = 0.85 (spot radiographic examination)",
+          "description": "Apply a joint efficiency of 0.85, which requires spot radiographic examination per UW-52.",
+          "tradeoffs": "Moderate wall thickness increase (~18%). Reduces NDE cost compared to full radiographic examination. Acceptable for many service conditions."
+        },
+        {
+          "id": "no-rt",
+          "label": "E = 0.70 (no radiographic examination)",
+          "description": "Apply a joint efficiency of 0.70 with no radiographic examination of the weld.",
+          "tradeoffs": "Requires the thickest wall (~43% increase over E=1.0). Minimizes NDE cost but significantly increases material cost and vessel weight. May not be acceptable for the specified design pressure and temperature."
+        }
+      ],
+      "affectedArtifactIds": ["cell-17", "cell-18", "cell-23", "cell-25", "plot-3", "validation-check-v01", "validation-check-v04", "conclusion-1"],
+      "authority": {
+        "mode": "human",
+        "actorId": "engineer-mthompson"
+      },
+      "validityConditions": [
+        "Design pressure remains at 15 MPa",
+        "Design temperature remains at 350C",
+        "Weld type remains double-welded butt joint",
+        "Applicable code edition does not change"
+      ],
+      "reopenConditions": [
+        "Design pressure or temperature is revised",
+        "Weld joint type changes",
+        "NDE budget or schedule constraints change",
+        "Applicable code edition is updated"
+      ],
+      "createdAt": "2024-12-03T10:22:45Z",
+      "updatedAt": "2024-12-03T10:22:45Z"
+    }
+  },
+  "expected": {
+    "workflowBlocked": true,
+    "blockingPointId": "jp-2024-00189",
+    "reason": "Pending Judgment Point 'jp-2024-00189' has intervention level 'pause' and has not been resolved. Workflow execution cannot proceed past 'cell-16' until this point is resolved by the authorized decision-maker ('engineer-mthompson').",
+    "resumeBehavior": "Upon resolution, the workflow resumes from 'cell-17'. All affected artifacts (cell-17 through conclusion-1) are recalculated with the resolved parameter value.",
+    "requiredAction": "Human engineer 'engineer-mthompson' must resolve the pending Judgment Point by selecting a weld efficiency factor and providing a rationale."
+  }
+}

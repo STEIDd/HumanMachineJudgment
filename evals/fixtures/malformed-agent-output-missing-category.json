@@ -1,0 +1,33 @@
+{
+  "scenario": "malformed-agent-output-missing-category",
+  "description": "Invalid candidate data that is missing the required 'category' field. The agent emitted a Judgment Candidate without specifying which category of technical choice it represents. Validation should reject this candidate with a clear error.",
+  "input": {
+    "candidate": {
+      "question": "Should the fatigue life prediction use the Basquin equation or the Coffin-Manson relationship for this low-cycle fatigue analysis of a steel pressure vessel nozzle?",
+      "reason": "The expected strain amplitude of 0.4% places this analysis in the transition region between high-cycle and low-cycle fatigue regimes. The choice of prediction model affects the estimated fatigue life by up to an order of magnitude.",
+      "alternatives": [
+        {
+          "id": "basquin",
+          "label": "Basquin equation (stress-life)",
+          "description": "Use the stress-life approach with the Basquin equation relating stress amplitude to cycles to failure.",
+          "tradeoffs": "Well-established for high-cycle fatigue. May overestimate fatigue life in the low-cycle regime where plastic strain dominates."
+        },
+        {
+          "id": "coffin-manson",
+          "label": "Coffin-Manson relationship (strain-life)",
+          "description": "Use the strain-life approach with the Coffin-Manson relationship relating total strain amplitude to reversals to failure.",
+          "tradeoffs": "Appropriate for low-cycle fatigue where plastic strain is significant. Requires cyclic stress-strain curve data which may not be available for the specific heat treatment condition."
+        }
+      ],
+      "affectedArtifacts": ["cell-8", "cell-14", "plot-6", "conclusion-2"],
+      "uncertainty": "Cyclic material properties for SA-516 Grade 70 steel at the operating temperature of 350C are interpolated from limited published data.",
+      "confidence": 0.85
+    }
+  },
+  "expected": {
+    "valid": false,
+    "error": "validation_error",
+    "missingField": "category",
+    "message": "Candidate is missing the required 'category' field. Must be one of: objective, framing, assumption, method, data, parameter, validation, interpretation."
+  }
+}

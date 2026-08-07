@@ -1,0 +1,77 @@
+{
+  "scenario": "unauthorized-resolution-agent-human-authority",
+  "description": "An agent attempts to resolve a Judgment Point that has 'human' authority mode. The system should block this resolution because only a human decision-maker is authorized to resolve this point. This tests the MRTR (Minimum Required Trust for Resolution) pattern.",
+  "input": {
+    "judgmentPoint": {
+      "id": "jp-2024-00147",
+      "projectId": "proj-turbine-blade-fea",
+      "category": "assumption",
+      "question": "Should the creep model assume steady-state (secondary) creep only, or should it include primary and tertiary creep phases for the nickel superalloy turbine blade life prediction?",
+      "context": "The turbine blade operates at 950C under centrifugal loading. The design life is 30,000 hours. At these conditions, tertiary creep and creep rupture are the dominant failure mechanisms. Ignoring primary and tertiary creep phases could lead to a non-conservative life prediction.",
+      "trigger": {
+        "source": "rule",
+        "description": "Hard trigger: agent is making an assumption about failure mechanism coverage that affects safety-critical life prediction.",
+        "hardTrigger": "safety-critical-assumption"
+      },
+      "materiality": {
+        "score": 16,
+        "dimensions": {
+          "methodologicalDiscretion": 2,
+          "downstreamInfluence": 3,
+          "uncertainty": 2,
+          "consequence": 3,
+          "reversibility": 3,
+          "accountabilityRequirement": 3
+        },
+        "hardTrigger": "safety-critical-assumption",
+        "interventionLevel": "require-investigation"
+      },
+      "status": "pending",
+      "alternatives": [
+        {
+          "id": "secondary-only",
+          "label": "Steady-state creep only",
+          "description": "Model only secondary (steady-state) creep using Norton's power law. Extrapolate time-to-rupture from the secondary creep rate.",
+          "tradeoffs": "Simpler model with well-characterized parameters. Does not capture the accelerating strain rate in tertiary creep, potentially overestimating remaining life."
+        },
+        {
+          "id": "full-creep-curve",
+          "label": "Full creep curve (primary + secondary + tertiary)",
+          "description": "Use a theta-projection or Kachanov-Rabotnov model that captures all three creep phases including damage accumulation in the tertiary stage.",
+          "tradeoffs": "Physically more representative for long-duration, high-temperature service. Requires additional material parameters (damage constants) that may have higher uncertainty."
+        }
+      ],
+      "affectedArtifactIds": ["cell-31", "cell-38", "cell-42", "plot-7", "plot-9", "validation-check-v05", "conclusion-1", "conclusion-3"],
+      "authority": {
+        "mode": "human",
+        "actorId": "engineer-jsmith"
+      },
+      "validityConditions": [
+        "Operating temperature remains at or below 950C",
+        "Design life target does not change from 30,000 hours",
+        "Material is Inconel 718 or equivalent nickel superalloy"
+      ],
+      "reopenConditions": [
+        "New creep test data becomes available for this alloy at the operating temperature",
+        "Design life requirement changes",
+        "Operating temperature profile is revised"
+      ],
+      "createdAt": "2024-11-15T09:30:00Z",
+      "updatedAt": "2024-11-15T09:30:00Z"
+    },
+    "resolutionAttempt": {
+      "actor": {
+        "type": "agent",
+        "id": "agent-analysis-bot"
+      },
+      "selectedAlternativeId": "secondary-only",
+      "rationale": "Steady-state creep is sufficient for preliminary analysis. Full creep curve modeling can be performed in detailed design."
+    }
+  },
+  "expected": {
+    "allowed": false,
+    "error": "authorization_error",
+    "reason": "Agent 'agent-analysis-bot' is not authorized to resolve Judgment Point 'jp-2024-00147'. Authority mode is 'human' and requires resolution by 'engineer-jsmith'.",
+    "expectedBehavior": "The system rejects the resolution attempt, logs an unauthorized resolution event, and the Judgment Point remains in 'pending' status."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "scenario": "skill-activation-no-detection-formatting",
+  "description": "Agent performs a purely formatting task (converting stress units from Pa to MPa in output tables). No judgment point should be detected because the operation does not alter analysis results or require any consequential choice.",
+  "input": {
+    "action": "format_output_table",
+    "description": "Converting stress values in the results table from Pascals to Megapascals for readability. All underlying numerical data remains unchanged.",
+    "context": "Post-processing output from a von Mises stress analysis of a titanium alloy Ti-6Al-4V turbine blade. The analysis is complete and all values are finalized; only the display units are being adjusted."
+  },
+  "expected": {
+    "detected": false,
+    "hard_trigger": null,
+    "intervention_level": null,
+    "category": null,
+    "reason": "Unit display formatting does not affect analysis results, conclusions, or any downstream artifacts. The underlying data is unchanged and the conversion is lossless."
+  }
+}

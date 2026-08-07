@@ -5,6 +5,14 @@ node_modules/
 dist/
 *.tsbuildinfo
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+*.egg
+
 # Environment and secrets
 .env
 .env.*

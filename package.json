@@ -25,10 +25,13 @@
     "format:fix": "prettier --write .",
     "typecheck": "pnpm -r run typecheck",
     "clean": "pnpm -r run clean",
-    "validate": "pnpm run format && pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
+    "test:python": "cd backend && uv run pytest",
+    "lint:python": "cd backend && uv run ruff check .",
+    "typecheck:python": "cd backend && uv run mypy .",
+    "format:python": "cd backend && uv run ruff format --check .",
+    "validate": "pnpm run format && pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build && pnpm run test:python && pnpm run lint:python && pnpm run typecheck:python && pnpm run format:python",
     "validate:schemas": "pnpm --filter @human-machine-judgment/schemas run validate",
     "dev:demo": "pnpm --filter @human-machine-judgment/reference-demo run dev",
-    "dev:server": "pnpm --filter @human-machine-judgment/reference-server run dev",
     "dev:docs": "pnpm --filter @human-machine-judgment/documentation run dev"
   },
   "devDependencies": {

@@ -1,0 +1,77 @@
+[project]
+name = "human-machine-judgment"
+version = "0.1.0"
+description = "Human-Machine Judgment system — Python backend workspace."
+requires-python = ">=3.12"
+license = "Apache-2.0"
+
+[tool.uv.workspace]
+members = [
+  "judgment_core",
+  "judgment_sdk",
+  "judgment_storage_memory",
+  "judgment_storage_sqlite",
+  "judgment_mcp",
+  "judgment_langgraph",
+  "reference_server",
+]
+
+[tool.uv]
+dev-dependencies = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.25",
+  "httpx>=0.28",
+  "ruff>=0.11",
+  "mypy>=1.15",
+  "datamodel-code-generator>=0.27",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+  "judgment_core/tests",
+  "judgment_sdk/tests",
+  "judgment_storage_memory/tests",
+  "judgment_storage_sqlite/tests",
+  "judgment_mcp/tests",
+  "judgment_langgraph/tests",
+  "reference_server/tests",
+]
+addopts = "-v --strict-markers --tb=short"
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+exclude = ["*/_generated/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["UP046"]
+
+[tool.ruff.lint.per-file-ignores]
+"reference_server/src/reference_server/routes/*.py" = ["B008"]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+  "judgment_core",
+  "judgment_sdk",
+  "judgment_storage_memory",
+  "judgment_storage_sqlite",
+  "judgment_mcp",
+  "judgment_langgraph",
+  "reference_server",
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+exclude = [
+  "tests/",
+  "_generated/",
+]
+
+[[tool.mypy.overrides]]
+module = ["langgraph.*", "mcp.*"]
+ignore_missing_imports = true

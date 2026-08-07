@@ -6,36 +6,54 @@ This document describes the architecture of the Human-Machine Judgment system, c
 
 ## System Overview
 
-Human-Machine Judgment is organized as a monorepo containing publishable packages, runnable applications, standalone schemas, agent skill definitions, and evaluation tooling. The monorepo is managed with pnpm workspaces, and all workspace roots are declared in `pnpm-workspace.yaml`.
+Human-Machine Judgment is organized as a monorepo containing a Python backend, publishable TypeScript frontend packages, runnable applications, standalone schemas, agent skill definitions, and evaluation tooling. The monorepo uses pnpm workspaces for TypeScript packages and uv workspaces for Python packages.
 
 The top-level directories serve these purposes:
 
 | Directory   | Purpose                                                                                                                                     |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `packages/` | Publishable libraries that implement the system's runtime, schemas, SDK, integrations, storage adapters, and UI components                  |
-| `apps/`     | Runnable applications including the reference demonstration, reference server, and documentation site                                       |
+| `backend/`  | Python backend containing core runtime, SDK, storage adapters, and reference server                                                         |
+| `packages/` | TypeScript frontend libraries including JSON schemas and UI components                                                                      |
+| `apps/`     | Runnable applications including the reference demonstration and documentation site                                                           |
 | `schemas/`  | Standalone JSON Schema files defining the canonical data shapes for Judgment Points, events, policies, resolutions, and artifact references |
 | `skills/`   | Agent Skill definitions that teach agents how to interact with the Judgment Points system                                                   |
 | `evals/`    | Evaluation harness, test fixtures, and evaluation scenarios                                                                                 |
 | `examples/` | Example workflows and configurations demonstrating practical usage                                                                          |
 | `docs/`     | Prose documentation source, including architecture decision records                                                                         |
+| `scripts/`  | Build and maintenance scripts, including type generation from canonical JSON Schemas                                                        |
 
 ---
 
 ## Package Inventory
 
-The `packages/` directory contains the following libraries:
+### Python Packages (backend/)
 
-| Package                   | Name                                     | Responsibility                                                                                                                                                                                                                     |
-| ------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `judgment-core`           | `@human-machine-judgment/core`           | Core domain types, state machine, lifecycle guards, materiality scoring, hard-trigger evaluation, policy evaluation, authority evaluation, resolution validation, dependency invalidation, staleness detection, and event creation |
-| `judgment-schemas`        | `@human-machine-judgment/schemas`        | JSON Schema definitions, generated TypeScript types, schema validation utilities, and validation fixtures                                                                                                                          |
-| `judgment-sdk`            | `@human-machine-judgment/sdk`            | Developer SDK providing typed interfaces for creating, querying, resolving, and managing Judgment Points programmatically                                                                                                          |
-| `judgment-mcp`            | `@human-machine-judgment/mcp`            | Model Context Protocol server exposing Judgment Point operations as MCP tools and resources                                                                                                                                        |
-| `judgment-langgraph`      | `@human-machine-judgment/langgraph`      | LangGraph adapter for integrating Judgment Points into LangGraph-based agent graphs                                                                                                                                                |
-| `judgment-storage-memory` | `@human-machine-judgment/storage-memory` | In-memory storage adapter implementing the storage interface defined by the core package                                                                                                                                           |
-| `judgment-storage-sqlite` | `@human-machine-judgment/storage-sqlite` | SQLite storage adapter for persistent storage of Judgment Points and events                                                                                                                                                        |
-| `judgment-ui`             | `@human-machine-judgment/ui`             | React component library providing UI elements for rendering Judgment Points, markers, panels, cards, and comparison views                                                                                                          |
+The `backend/` directory is a uv workspace containing the following Python packages:
+
+| Package              | Responsibility                                                                                                                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `judgment_core`      | Core domain types, state machine, lifecycle guards, materiality scoring, hard-trigger evaluation, policy evaluation, authority evaluation, resolution validation, dependency invalidation, staleness detection, and event creation |
+| `judgment_sdk`       | Developer SDK providing typed interfaces for creating, querying, resolving, and managing Judgment Points programmatically                                                                                                          |
+| `judgment_server`    | FastAPI-based HTTP server exposing the Judgment Points API over HTTP with full lifecycle endpoints                                                                                                                                  |
+| `judgment_storage`   | Storage adapters (in-memory and SQLite) implementing the storage interface defined by the core package                                                                                                                             |
+| `judgment_mcp`       | Model Context Protocol server exposing Judgment Point operations as MCP tools and resources (planned)                                                                                                                              |
+| `judgment_langgraph` | LangGraph adapter for integrating Judgment Points into LangGraph-based agent graphs (planned)                                                                                                                                      |
+
+### TypeScript Packages (packages/)
+
+The `packages/` directory contains the remaining TypeScript libraries:
+
+| Package          | Name                                | Responsibility                                                                                                        |
+| ---------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `judgment-schemas` | `@human-machine-judgment/schemas` | JSON Schema definitions, generated TypeScript types, schema validation utilities, and validation fixtures             |
+| `judgment-ui`      | `@human-machine-judgment/ui`      | React component library providing UI elements for rendering Judgment Points, markers, panels, cards, and comparison views |
+
+### Applications (apps/)
+
+| Application      | Name                                     | Responsibility                                                                                      |
+| ---------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `reference-demo` | `@human-machine-judgment/reference-demo` | Vite-based React application providing an interactive environment for exploring Judgment Points      |
+| `documentation`  | `@human-machine-judgment/documentation`  | Static documentation site hosting specification, API reference, integration guides, and tutorials    |
 
 ---
 
@@ -43,33 +61,46 @@ The `packages/` directory contains the following libraries:
 
 Dependencies flow in a single direction. Packages at the bottom of the graph depend on packages above them, never the reverse.
 
+### Python Dependencies
+
 ```
-                    judgment-core
-                    (no external deps)
-                         |
-         +---------------+---------------+
-         |               |               |
-  judgment-sdk     judgment-schemas   storage-*
-  (depends on core) (standalone)      (core)
+                judgment_core
+                (Pydantic models, no external framework deps)
+                     |
+         +-----------+-----------+
+         |                       |
+  judgment_sdk            judgment_storage
+  (depends on core)       (core + SQLAlchemy)
          |
   +------+------+
   |             |
-judgment-mcp  judgment-langgraph
+judgment_mcp  judgment_langgraph
 (core + sdk)  (core)
-  |
-judgment-ui
-(core)
+         |
+  judgment_server
+  (FastAPI + sdk + storage)
 ```
+
+### TypeScript Dependencies
+
+```
+  judgment-schemas        judgment-ui
+  (standalone)            (React components)
+```
+
+### Cross-Language Type Sharing
+
+Types are kept in sync between Python and TypeScript through code generation from canonical JSON Schema definitions in the `schemas/` directory. The `scripts/generate_types.py` script generates both Python (Pydantic) models and TypeScript types from these schemas. The `scripts/check_type_drift.sh` script verifies that generated types are not stale in CI.
 
 The dependency rules are:
 
-1. `judgment-core` has zero external runtime dependencies. It depends only on the Node.js standard library and TypeScript's built-in types.
-2. `judgment-schemas` contains the canonical JSON Schema definitions in the `schemas/` directory and a validation script for CI. The TypeScript types are hand-written in `judgment-core` (see ADR-004).
-3. `judgment-sdk` depends on `judgment-core` for domain types and lifecycle operations. It provides the primary programmatic interface for external consumers.
-4. `judgment-storage-memory` and `judgment-storage-sqlite` depend on `judgment-core` for the storage interface definition. They implement the interface without introducing any dependency from core back to them.
-5. `judgment-mcp` depends on `judgment-core` for domain logic and `judgment-sdk` for the client interface. It also depends on the MCP SDK (`@modelcontextprotocol/server`).
-6. `judgment-langgraph` depends on `judgment-core` for domain types and lifecycle operations.
-7. `judgment-ui` depends on `judgment-core` for domain types. It uses React for rendering but does not introduce a React dependency into the core package.
+1. `judgment_core` has zero external framework dependencies. It depends only on Pydantic for data modeling and validation.
+2. `judgment-schemas` (TypeScript) contains the canonical JSON Schema definitions in the `schemas/` directory and generated TypeScript types. Generated Python types are in `judgment_core`.
+3. `judgment_sdk` depends on `judgment_core` for domain types and lifecycle operations. It provides the primary programmatic interface for external consumers.
+4. `judgment_storage` depends on `judgment_core` for the storage interface definition. It implements in-memory and SQLite adapters using SQLAlchemy without introducing any dependency from core back to storage.
+5. `judgment_mcp` depends on `judgment_core` for domain logic and `judgment_sdk` for the client interface.
+6. `judgment_langgraph` depends on `judgment_core` for domain types and lifecycle operations.
+7. `judgment-ui` (TypeScript) depends on `judgment-schemas` for type definitions. It uses React for rendering.
 
 ---
 
@@ -77,15 +108,17 @@ The dependency rules are:
 
 The following boundaries are enforced to maintain separation of concerns:
 
-**Core isolation.** The `judgment-core` package must not depend on React, MCP, LangGraph, any storage driver implementation, or any model provider. This ensures that the core domain logic can be used in any JavaScript or TypeScript environment without pulling in framework-specific dependencies.
+**Core isolation.** The `judgment_core` package must not depend on FastAPI, React, MCP, LangGraph, any storage driver implementation, or any model provider. This ensures that the core domain logic can be used in any Python environment without pulling in framework-specific dependencies.
 
-**Storage abstraction.** The core package defines a storage interface as a set of TypeScript interfaces. Concrete storage implementations (`judgment-storage-memory`, `judgment-storage-sqlite`) implement these interfaces. Application code interacts with storage only through the interface, never through concrete implementations directly.
+**Storage abstraction.** The core package defines a storage interface using Python abstract base classes. Concrete storage implementations (in-memory, SQLite via SQLAlchemy) implement these interfaces. Application code interacts with storage only through the interface, never through concrete implementations directly.
 
-**Protocol isolation.** The MCP server package (`judgment-mcp`) wraps the SDK and core functionality behind MCP tool and resource definitions. Changes to the MCP protocol version or SDK do not affect the core domain logic.
+**Protocol isolation.** The MCP server package (`judgment_mcp`) wraps the SDK and core functionality behind MCP tool and resource definitions. Changes to the MCP protocol version or SDK do not affect the core domain logic.
 
 **Framework isolation.** The LangGraph adapter wraps core functionality behind LangGraph node and edge definitions. Changes to the LangGraph API do not affect the core domain logic.
 
-**UI isolation.** The UI component library depends on core types for data shapes but does not contain business logic. All state transitions, validation, and policy evaluation happen in the core package. The UI renders data and dispatches user actions through the SDK.
+**Language boundary.** Python handles all backend logic (core runtime, storage, API server, agent integrations). TypeScript handles all frontend concerns (React UI components, schema validation utilities). Types are shared via code generation from canonical JSON Schemas, not through direct cross-language imports.
+
+**UI isolation.** The UI component library depends on schema types for data shapes but does not contain business logic. All state transitions, validation, and policy evaluation happen in the Python backend. The UI renders data and dispatches user actions through the HTTP API.
 
 ---
 
@@ -118,19 +151,19 @@ When a new event is appended, the projection is updated by applying the event's 
 
 The storage interface (`JudgmentStorage`) defines the following operations:
 
-- **appendEvent(event)**: Append an event to the immutable log.
-- **getEvents(judgmentPointId, filters?)**: Retrieve all events for a Judgment Point, with optional filters by event type, actor, or time range.
-- **getEventsByProject(projectId, filters?, offset?, limit?)**: Retrieve paginated events for a project, ordered by timestamp.
-- **getJudgmentPoint(id)**: Retrieve the current-state projection for a Judgment Point, or null if not found.
-- **getJudgmentPoints(projectId, filters?, offset?, limit?)**: List current-state projections for all Judgment Points in a project, with optional filters by status, category, materiality score range, or creation date range.
-- **saveJudgmentPoint(point)**: Persist a current-state projection (used after applying an event).
-- **savePolicy(policy)**: Create a new policy.
-- **getPolicy(id)**: Retrieve a single policy by ID.
-- **getPolicies(projectId)**: List all policies for a project.
-- **updatePolicy(policy)**: Update an existing policy.
-- **deletePolicy(id)**: Delete a policy by ID.
+- **append_event(event)**: Append an event to the immutable log.
+- **get_events(judgment_point_id, filters?)**: Retrieve all events for a Judgment Point, with optional filters by event type, actor, or time range.
+- **get_events_by_project(project_id, filters?, offset?, limit?)**: Retrieve paginated events for a project, ordered by timestamp.
+- **get_judgment_point(id)**: Retrieve the current-state projection for a Judgment Point, or None if not found.
+- **get_judgment_points(project_id, filters?, offset?, limit?)**: List current-state projections for all Judgment Points in a project, with optional filters by status, category, materiality score range, or creation date range.
+- **save_judgment_point(point)**: Persist a current-state projection (used after applying an event).
+- **save_policy(policy)**: Create a new policy.
+- **get_policy(id)**: Retrieve a single policy by ID.
+- **get_policies(project_id)**: List all policies for a project.
+- **update_policy(policy)**: Update an existing policy.
+- **delete_policy(id)**: Delete a policy by ID.
 
-Storage adapters implement this interface. The in-memory adapter stores data in JavaScript Maps and is suitable for testing and short-lived processes. The SQLite adapter (not yet implemented) will store data in a local database file for persistent single-user or development scenarios.
+Storage adapters implement this interface. The in-memory adapter stores data in Python dictionaries and is suitable for testing and short-lived processes. The SQLite adapter uses SQLAlchemy for persistent single-user or development scenarios.
 
 ---
 
@@ -202,7 +235,7 @@ The system is designed with several extension points that allow customization wi
 
 ### Custom Storage Adapters
 
-Any storage backend can be used by implementing the storage interface defined in `judgment-core`. The interface requires implementing the operations listed in the Storage Interface section above. A PostgreSQL adapter, a cloud-native adapter, or a distributed event store adapter could be created by implementing these methods.
+Any storage backend can be used by implementing the storage interface defined in `judgment_core`. The interface requires implementing the operations listed in the Storage Interface section above. A PostgreSQL adapter, a cloud-native adapter, or a distributed event store adapter could be created by implementing the abstract base class methods.
 
 ### Custom Detection Rules
 
@@ -220,6 +253,23 @@ The system does not depend on any specific AI model provider. When model-assiste
 
 ## Technology Stack
 
+### Backend (Python)
+
+| Component                  | Technology                | Version            |
+| -------------------------- | ------------------------- | ------------------ |
+| Language                   | Python                    | >= 3.11            |
+| Package manager            | uv                        | latest             |
+| Web framework              | FastAPI                   | 0.x                |
+| Data modeling / validation | Pydantic                  | 2.x                |
+| Database ORM               | SQLAlchemy                | 2.x                |
+| Local database             | SQLite                    | Via SQLAlchemy      |
+| Unit and integration tests | pytest                    | 8.x                |
+| Linting                    | ruff                      | latest             |
+| Type checking              | mypy                      | latest             |
+| Formatting                 | ruff format               | latest             |
+
+### Frontend (TypeScript)
+
 | Component                  | Technology                | Version            |
 | -------------------------- | ------------------------- | ------------------ |
 | Runtime                    | Node.js                   | 22 LTS             |
@@ -227,17 +277,20 @@ The system does not depend on any specific AI model provider. When model-assiste
 | Language                   | TypeScript                | 6.0.3 (strict)     |
 | UI framework               | React                     | 19.x               |
 | Build tool                 | Vite                      | 7.x                |
-| HTTP server                | Fastify                   | 5.x                |
-| Local database             | SQLite                    | Via better-sqlite3 |
 | Unit and integration tests | Vitest                    | 4.x                |
 | End-to-end tests           | Playwright                | To be added        |
-| Schema format              | JSON Schema Draft 2020-12 | 2020-12            |
-| MCP protocol               | Model Context Protocol    | 2026-07-28         |
 | Linting                    | ESLint                    | 10.x               |
 | Formatting                 | Prettier                  | 3.x                |
+
+### Shared
+
+| Component                  | Technology                | Version            |
+| -------------------------- | ------------------------- | ------------------ |
+| Schema format              | JSON Schema Draft 2020-12 | 2020-12            |
+| MCP protocol               | Model Context Protocol    | 2026-07-28         |
 | License                    | Apache-2.0                | N/A                |
 
-TypeScript is configured in strict mode across all packages. Each package has its own `tsconfig.json` that extends the shared `tsconfig.base.json` at the repository root. Build configurations (`tsconfig.build.json`) are separate from development configurations to support different output targets.
+TypeScript is configured in strict mode across all frontend packages. Each package has its own `tsconfig.json` that extends the shared `tsconfig.base.json` at the repository root. Python uses mypy in strict mode for type checking across all backend packages.
 
 ---
 
@@ -245,11 +298,11 @@ TypeScript is configured in strict mode across all packages. Each package has it
 
 ### Reference Demo (`apps/reference-demo`)
 
-The reference demonstration is a Vite-based React application that provides an interactive environment for exploring Judgment Points. It uses the in-memory storage adapter and includes pre-loaded example data.
+The reference demonstration is a Vite-based React application that provides an interactive environment for exploring Judgment Points. It communicates with the Python backend server via HTTP API calls.
 
-### Reference Server (`apps/reference-server`)
+### Reference Server (`backend/judgment_server`)
 
-The reference server is a Fastify-based HTTP server that exposes the Judgment Points API over HTTP. It currently uses the in-memory storage adapter and provides REST endpoints for creating, querying, resolving, and managing Judgment Points. Persistent storage via the SQLite adapter will be available in a later phase.
+The reference server is a FastAPI-based HTTP server that exposes the Judgment Points API over HTTP. It supports both in-memory and SQLite storage adapters and provides REST endpoints for creating, querying, resolving, and managing Judgment Points.
 
 ### Documentation Site (`apps/documentation`)
 

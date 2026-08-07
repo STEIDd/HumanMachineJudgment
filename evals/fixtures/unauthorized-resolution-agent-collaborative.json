@@ -1,0 +1,80 @@
+{
+  "scenario": "unauthorized-resolution-agent-collaborative",
+  "description": "An agent attempts to unilaterally resolve a Judgment Point that has 'collaborative' authority mode. The system should block this because collaborative mode requires human involvement in the resolution process; an agent alone cannot resolve it.",
+  "input": {
+    "judgmentPoint": {
+      "id": "jp-2024-00203",
+      "projectId": "proj-bridge-seismic",
+      "category": "method",
+      "question": "Should the seismic analysis of the bridge pier use response spectrum analysis or nonlinear time-history analysis?",
+      "context": "The reinforced concrete bridge pier is located in a high-seismicity zone (AASHTO Seismic Design Category D). The pier has an irregular geometry with a flared cap beam. Response spectrum analysis is permitted by code but may not adequately capture the nonlinear response of the pier under the design-level earthquake. Time-history analysis would provide more detailed response information but requires selection and scaling of ground motion records.",
+      "trigger": {
+        "source": "agent",
+        "description": "Soft detection: agent identified that the choice between linear and nonlinear analysis methods materially affects the predicted seismic demand on the bridge pier."
+      },
+      "materiality": {
+        "score": 13,
+        "dimensions": {
+          "methodologicalDiscretion": 3,
+          "downstreamInfluence": 3,
+          "uncertainty": 2,
+          "consequence": 2,
+          "reversibility": 1,
+          "accountabilityRequirement": 2
+        },
+        "interventionLevel": "pause"
+      },
+      "status": "pending",
+      "alternatives": [
+        {
+          "id": "response-spectrum",
+          "label": "Response spectrum analysis",
+          "description": "Perform a multimodal response spectrum analysis using the code-specified design spectrum. Combine modal responses using CQC combination.",
+          "tradeoffs": "Code-compliant and computationally efficient. Does not capture inelastic behavior, period elongation, or residual displacements. May underestimate demands on irregular structures."
+        },
+        {
+          "id": "nonlinear-time-history",
+          "label": "Nonlinear time-history analysis",
+          "description": "Perform nonlinear response history analysis using a suite of seven spectrum-compatible ground motion records with fiber-section modeling of the pier.",
+          "tradeoffs": "Captures inelastic response, hysteretic energy dissipation, and residual displacements. Requires ground motion selection and scaling, fiber-section calibration, and significantly more computational time. Results are sensitive to ground motion selection."
+        },
+        {
+          "id": "pushover-plus-spectrum",
+          "label": "Nonlinear static (pushover) with spectrum",
+          "description": "Perform a nonlinear static pushover analysis to establish the capacity curve, then use the capacity spectrum method to estimate seismic demand.",
+          "tradeoffs": "Captures some nonlinear behavior with less computational cost than time-history analysis. May not adequately represent higher-mode effects for structures where multiple modes contribute significantly."
+        }
+      ],
+      "affectedArtifactIds": ["cell-22", "cell-28", "cell-35", "cell-41", "plot-4", "plot-6", "plot-8", "validation-check-v03", "conclusion-1", "conclusion-2"],
+      "authority": {
+        "mode": "collaborative"
+      },
+      "validityConditions": [
+        "Seismic hazard level remains as specified in the current site-specific study",
+        "Pier geometry and reinforcement layout do not change",
+        "Soil-structure interaction effects are not introduced"
+      ],
+      "reopenConditions": [
+        "Site-specific seismic hazard study is updated",
+        "Pier geometry is modified during design iteration",
+        "Regulatory authority requires a specific analysis method"
+      ],
+      "createdAt": "2024-12-03T14:15:00Z",
+      "updatedAt": "2024-12-03T14:15:00Z"
+    },
+    "resolutionAttempt": {
+      "actor": {
+        "type": "agent",
+        "id": "agent-seismic-analyzer"
+      },
+      "selectedAlternativeId": "response-spectrum",
+      "rationale": "Response spectrum analysis is code-compliant and sufficient for this pier configuration. Nonlinear analysis can be performed if the response spectrum results indicate the pier is near its capacity."
+    }
+  },
+  "expected": {
+    "allowed": false,
+    "error": "authorization_error",
+    "reason": "Agent 'agent-seismic-analyzer' is not authorized to unilaterally resolve Judgment Point 'jp-2024-00203'. Authority mode is 'collaborative', which requires human participation in the resolution.",
+    "expectedBehavior": "The system rejects the agent-only resolution attempt. The Judgment Point remains in 'pending' status. A human must participate in the resolution for collaborative authority mode."
+  }
+}
