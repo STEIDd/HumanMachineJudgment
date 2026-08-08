@@ -1,0 +1,105 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-md, 16px);
+  padding: var(--jp-space-sm, 8px) var(--jp-space-lg, 24px);
+  background: var(--jp-color-bg, #ffffff);
+  border-bottom: 1px solid var(--jp-color-border, #dee2e6);
+  box-shadow: var(--jp-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--jp-font-size-lg, 1.125rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.titleLink {
+  color: var(--jp-color-text, #212529);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.titleLink:hover {
+  color: var(--jp-color-link, #0d6efd);
+}
+
+.nav {
+  display: flex;
+  gap: var(--jp-space-xs, 4px);
+  align-items: center;
+}
+
+.navLink {
+  padding: var(--jp-space-xs, 4px) var(--jp-space-sm, 8px);
+  border: none;
+  border-radius: var(--jp-radius-sm, 4px);
+  background: none;
+  color: var(--jp-color-text-secondary, #6c757d);
+  font-size: var(--jp-font-size-sm, 0.875rem);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  background: var(--jp-color-bg-muted, #e9ecef);
+  color: var(--jp-color-text, #212529);
+}
+
+.navLinkActive {
+  background: var(--jp-color-bg-muted, #e9ecef);
+  color: var(--jp-color-link, #0d6efd);
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.projectField {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-xs, 4px);
+  font-size: var(--jp-font-size-sm, 0.875rem);
+}
+
+.projectLabel {
+  color: var(--jp-color-text-secondary, #6c757d);
+  white-space: nowrap;
+}
+
+.projectInput {
+  width: 140px;
+  padding: var(--jp-space-xs, 4px) var(--jp-space-sm, 8px);
+  border: 1px solid var(--jp-color-border, #dee2e6);
+  border-radius: var(--jp-radius-sm, 4px);
+  font-size: var(--jp-font-size-sm, 0.875rem);
+  background: var(--jp-color-bg, #ffffff);
+  color: var(--jp-color-text, #212529);
+}
+
+.projectInput:focus {
+  outline: none;
+  box-shadow: var(--jp-focus-ring, 0 0 0 3px rgba(13, 110, 253, 0.5));
+  border-color: var(--jp-color-link, #0d6efd);
+}
+
+.main {
+  flex: 1;
+  padding: var(--jp-space-lg, 24px);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}

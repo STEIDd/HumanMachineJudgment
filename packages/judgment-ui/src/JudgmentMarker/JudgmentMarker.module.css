@@ -1,0 +1,130 @@
+.marker {
+  display: inline-flex;
+  flex-direction: column;
+  font-family: var(--jp-font-family);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-md);
+  background-color: var(--jp-color-bg);
+  cursor: pointer;
+  transition: all var(--jp-transition-fast);
+  max-width: 400px;
+}
+.marker:focus-visible {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+.marker:hover .collapsed {
+  max-height: 60px;
+  opacity: 1;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+}
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--jp-space-xs);
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+}
+.statusIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--jp-radius-full);
+  font-size: var(--jp-font-size-xs);
+  font-weight: 700;
+  color: var(--jp-color-text-inverse);
+  background-color: var(--jp-color-candidate);
+}
+.statusIcon[data-status='pending'] {
+  background-color: var(--jp-color-pending);
+}
+.statusIcon[data-status='investigating'] {
+  background-color: var(--jp-color-investigating);
+}
+.statusIcon[data-status='resolved'] {
+  background-color: var(--jp-color-resolved);
+}
+.statusIcon[data-status='delegated'] {
+  background-color: var(--jp-color-delegated);
+}
+.statusIcon[data-status='stale'] {
+  background-color: var(--jp-color-stale);
+}
+.statusIcon[data-status='reopened'] {
+  background-color: var(--jp-color-reopened);
+}
+.statusIcon[data-status='dismissed'] {
+  background-color: var(--jp-color-dismissed);
+}
+.categoryAbbr {
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  color: var(--jp-color-text-secondary);
+}
+.collapsed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-sm);
+  padding: 0 var(--jp-space-sm);
+  transition: all var(--jp-transition-fast);
+  font-size: var(--jp-font-size-xs);
+}
+.marker:focus .collapsed {
+  max-height: 60px;
+  opacity: 1;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+}
+.questionTruncated {
+  color: var(--jp-color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.statusText {
+  color: var(--jp-color-text-secondary);
+  text-transform: capitalize;
+}
+.level {
+  color: var(--jp-color-text-secondary);
+  padding: 1px var(--jp-space-xs);
+  background-color: var(--jp-color-bg-subtle);
+  border-radius: var(--jp-radius-sm);
+}
+.expanded .collapsed {
+  max-height: 60px;
+  opacity: 1;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+}
+.expandedContent {
+  padding: var(--jp-space-sm);
+  border-top: 1px solid var(--jp-color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+  font-size: var(--jp-font-size-sm);
+}
+.fullQuestion {
+  margin: 0;
+  color: var(--jp-color-text);
+  line-height: var(--jp-line-height);
+}
+.score {
+  color: var(--jp-color-text-secondary);
+  font-size: var(--jp-font-size-xs);
+}
+.altCount {
+  color: var(--jp-color-text-secondary);
+  font-size: var(--jp-font-size-xs);
+}
+.resolutionSummary {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+  padding: var(--jp-space-xs);
+  background-color: var(--jp-bg-resolved);
+  border-radius: var(--jp-radius-sm);
+}

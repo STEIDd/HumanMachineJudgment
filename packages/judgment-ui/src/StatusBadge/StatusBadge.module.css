@@ -1,0 +1,59 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  line-height: var(--jp-line-height-tight);
+  border-radius: var(--jp-radius-full);
+  text-transform: capitalize;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--jp-transition-fast),
+    color var(--jp-transition-fast);
+}
+
+/* Each status uses a dark text color on a light background to ensure WCAG AA 4.5:1 contrast */
+
+.candidate {
+  background-color: var(--jp-bg-candidate);
+  color: #495057;
+  border: 1px solid var(--jp-color-candidate);
+}
+
+.pending {
+  background-color: var(--jp-bg-pending);
+  color: #084298;
+}
+
+.investigating {
+  background-color: var(--jp-bg-investigating);
+  color: #3d0a91;
+}
+
+.resolved {
+  background-color: var(--jp-bg-resolved);
+  color: #0f5132;
+}
+
+.delegated {
+  background-color: var(--jp-bg-delegated);
+  color: #984c0c;
+}
+
+.stale {
+  background-color: var(--jp-bg-stale);
+  color: #842029;
+}
+
+.reopened {
+  background-color: var(--jp-bg-reopened);
+  color: #801f4f;
+}
+
+.dismissed {
+  background-color: var(--jp-bg-dismissed);
+  color: #495057;
+}

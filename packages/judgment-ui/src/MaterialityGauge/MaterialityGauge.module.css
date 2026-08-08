@@ -1,0 +1,93 @@
+.gauge {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-sm);
+  font-family: var(--jp-font-family);
+}
+
+.scoreSection {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-sm);
+}
+
+.scoreBar {
+  flex: 1;
+  height: 8px;
+  background-color: var(--jp-color-bg-muted);
+  border-radius: var(--jp-radius-full);
+  overflow: hidden;
+}
+
+.scoreFill {
+  height: 100%;
+  background-color: var(--jp-color-pending);
+  border-radius: var(--jp-radius-full);
+  transition: width var(--jp-transition-normal);
+}
+
+.scoreValue {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+  white-space: nowrap;
+}
+
+.interventionLevel {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text-secondary);
+}
+
+.hardTrigger {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-error-text);
+  background-color: var(--jp-color-error-bg);
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border-radius: var(--jp-radius-sm);
+}
+
+.confidence {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text-secondary);
+}
+
+.dimensions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+
+.dimension {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-sm);
+}
+
+.dimensionLabel {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+  min-width: 160px;
+}
+
+.dimensionBar {
+  flex: 1;
+  height: 6px;
+  background-color: var(--jp-color-bg-muted);
+  border-radius: var(--jp-radius-full);
+  overflow: hidden;
+}
+
+.dimensionFill {
+  height: 100%;
+  background-color: var(--jp-color-investigating);
+  border-radius: var(--jp-radius-full);
+  transition: width var(--jp-transition-normal);
+}
+
+.dimensionValue {
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  color: var(--jp-color-text);
+  min-width: 16px;
+  text-align: right;
+}

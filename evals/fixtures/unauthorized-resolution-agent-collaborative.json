@@ -45,7 +45,18 @@
           "tradeoffs": "Captures some nonlinear behavior with less computational cost than time-history analysis. May not adequately represent higher-mode effects for structures where multiple modes contribute significantly."
         }
       ],
-      "affectedArtifactIds": ["cell-22", "cell-28", "cell-35", "cell-41", "plot-4", "plot-6", "plot-8", "validation-check-v03", "conclusion-1", "conclusion-2"],
+      "affectedArtifactIds": [
+        "cell-22",
+        "cell-28",
+        "cell-35",
+        "cell-41",
+        "plot-4",
+        "plot-6",
+        "plot-8",
+        "validation-check-v03",
+        "conclusion-1",
+        "conclusion-2"
+      ],
       "authority": {
         "mode": "collaborative"
       },

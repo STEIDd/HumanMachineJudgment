@@ -1,7 +1,8 @@
 # ADR-001: Technology Stack
 
-**Status**: Accepted
+**Status**: Amended
 **Date**: 2026-08-04
+**Amended**: 2026-08-06
 **Authors**: Courage Lahban
 
 ## Context
@@ -14,56 +15,78 @@ and open-source contributors.
 
 ## Decision
 
-The project uses the following stack:
+The project uses a split-stack approach:
+
+### Frontend (TypeScript)
 
 - **Runtime**: Node.js 22 LTS (current supported LTS release)
 - **Package manager**: pnpm 10.x with workspace support
-- **Language**: TypeScript in strict mode (TypeScript 6.0.3)
+- **Language**: TypeScript in strict mode
 - **Frontend framework**: React 19.x
 - **Build tool**: Vite 7.x for web applications
-- **HTTP server**: Fastify 5.x for the reference API
-- **Local persistence**: SQLite via a storage abstraction
+- **UI component library build**: Vite library mode
 - **Unit and integration testing**: Vitest 4.x
-- **End-to-end testing**: Playwright (to be added in Phase 4)
-- **Accessibility testing**: axe-core (to be integrated with Playwright)
-- **Property-based testing**: fast-check (to be added in Phase 2)
+- **End-to-end testing**: Playwright
+- **Accessibility testing**: axe-core (integrated with Playwright)
 - **Code formatting**: Prettier
 - **Linting**: ESLint with typescript-eslint
 - **Schema format**: JSON Schema Draft 2020-12
-- **API specification**: OpenAPI 3.1 (to be created in Phase 2)
-- **Release management**: Changesets (to be added when publishing begins)
+
+### Backend (Python)
+
+- **Runtime**: Python >= 3.12
+- **Package manager**: uv with workspace support
+- **HTTP server**: FastAPI with uvicorn
+- **ORM**: SQLAlchemy >= 2.0 with aiosqlite
+- **Validation**: Pydantic v2
+- **MCP integration**: MCP Python SDK (mcp >= 1.0)
+- **Agent framework**: LangGraph (langgraph >= 0.4)
+- **Testing**: pytest
+- **Linting**: ruff
+- **Type checking**: mypy
+
+## Amendment (Phase 2)
+
+The original decision proposed a TypeScript-only stack with Fastify for the
+backend. During Phase 2, the backend was migrated to Python with FastAPI.
+This change was motivated by:
+
+- Python's stronger ecosystem for scientific computing workflows, which
+  aligns with the project's target audience.
+- The MCP Python SDK reaching maturity, removing the TypeScript advantage
+  for MCP integration.
+- LangGraph's Python SDK being more widely adopted than LangGraph.js.
+- Pydantic providing equivalent or superior runtime validation to
+  TypeScript schema validation for the backend.
+
+The frontend remains TypeScript with React, and JSON schemas are shared
+across both stacks.
 
 ## Rationale
 
-TypeScript provides static typing that helps enforce the strict domain model
-required by Judgment Points (lifecycle states, authority modes, materiality
-dimensions). The monorepo structure with pnpm workspaces allows the core
-domain logic to remain independent of framework-specific code while sharing
-types and build configuration.
+The split-stack approach preserves TypeScript's strengths for UI development
+(static typing, component model, build tooling) while using Python's
+strengths for domain logic, storage, and agent framework integration.
 
-React was selected for the reference interface because it has broad adoption,
-which lowers the barrier to contribution. Fastify was selected for the server
-because it provides TypeScript-first support, schema-based validation, and
-adequate performance for a reference implementation.
-
-SQLite provides durable local persistence without requiring an external
-database service. The storage abstraction allows other adapters (PostgreSQL,
-cloud storage) to be added later without changing the core domain logic.
+The monorepo structure uses pnpm workspaces for TypeScript packages and uv
+workspaces for Python packages. JSON Schema Draft 2020-12 provides the
+shared contract between the two stacks.
 
 ## Consequences
 
-- Contributors must have Node.js 22 and pnpm 10 installed.
+- Contributors must have Node.js 22, pnpm 10, Python 3.12+, and uv installed.
 - The project does not support Node.js versions below 22.
-- Python-based tools (such as the skill validation script) require a
-  separate Python installation but are not part of the core build.
+- The project does not support Python versions below 3.12.
 - Browser-based testing requires Playwright browsers to be installed.
 
 ## Alternatives Considered
 
-- **Python-first**: Would align with many scientific computing workflows
-  but would complicate the MCP integration (MCP TypeScript SDK is more
-  mature) and the React-based reference interface.
+- **TypeScript-only (original plan)**: Would simplify the build but would
+  require maintaining TypeScript versions of MCP and LangGraph integrations
+  with less mature SDKs.
+- **Python-only**: Would simplify the backend but would require a different
+  approach for the reference UI (e.g., Jinja templates, htmx).
 - **Deno or Bun**: Would simplify some tooling but have less ecosystem
-  maturity for the specific packages needed (Fastify, MCP SDK).
+  maturity for the specific packages needed.
 - **Next.js for the demo**: Would add unnecessary framework complexity
   for what is primarily a single-page reference demonstration.

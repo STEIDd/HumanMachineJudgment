@@ -5,10 +5,12 @@ decision records for consequential choices in technical agent workflows.
 
 ## Project Status
 
-**Phase 2: Core runtime, storage, and API.**
-The specification, schemas, package structure, core domain logic,
-in-memory storage adapter, developer SDK, and reference HTTP API server
-are implemented. See [ROADMAP.md](ROADMAP.md) for planned phases.
+**Phase 4 complete.** The Python backend (core runtime, SDK, storage
+adapters, MCP server, LangGraph adapter, and reference HTTP API server),
+React UI component library (18 components), reference web application
+with thermal model example, evaluation harness (12 fixtures), and
+documentation are implemented. See [ROADMAP.md](ROADMAP.md) for
+phase details.
 
 ## What is a Judgment Point?
 
@@ -42,19 +44,22 @@ conclusions that depend on them.
   defining primitives, lifecycle, materiality scoring, and integration protocols.
 - **JSON Schemas**: Machine-readable schemas for Judgment Points, policies,
   events, resolutions, and artifact references (JSON Schema Draft 2020-12).
-- **Core runtime**: TypeScript packages for the core domain logic
-  (state machine, materiality scoring, policy engine, event sourcing),
-  developer SDK, and in-memory storage adapter.
-- **Reference server**: Fastify HTTP API server with full lifecycle,
-  policy, event, and artifact endpoints.
-- **Package skeletons**: TypeScript packages for the SQLite storage adapter,
-  MCP integration, LangGraph adapter, and React components.
+- **Python backend**: Core domain logic (state machine, materiality
+  scoring, policy engine, event sourcing), developer SDK, in-memory and
+  SQLite storage adapters, MCP server, LangGraph adapter, and FastAPI
+  reference server with 19 HTTP endpoints.
+- **UI component library**: 18 React components for rendering judgment
+  points, lifecycle actions, comparison views, and policy management.
+- **Reference application**: Interactive web application demonstrating the
+  full judgment point lifecycle and a thermal model scientific example.
 - **Agent Skill**: A portable [technical-judgment-review](skills/technical-judgment-review/SKILL.md)
   skill following the Agent Skills specification.
-- **Evaluation framework**: Fixture structure for testing detection quality,
-  interruption burden, dependency tracing, and workflow comparison.
+- **Evaluation harness**: Python-based fixture suite with 12 test scenarios
+  covering candidate detection, skill activation, malformed output,
+  unauthorized resolution, and restart/resume behavior.
 - **Documentation**: Architecture decisions, lifecycle documentation,
-  materiality scoring, integration guides, and a terminology reference.
+  materiality scoring, API reference, deployment guide, and getting
+  started guide.
 
 ## What This Repository Does Not Contain
 
@@ -101,8 +106,10 @@ A Judgment Point captures a consequential technical decision:
 
 ## Links
 
+- [Getting Started](docs/getting-started.md)
 - [Judgment Points Specification](docs/judgment-points-specification.md)
 - [Architecture](docs/architecture.md)
+- [API Reference](docs/api-reference.md)
 - [Lifecycle](docs/lifecycle.md)
 - [Materiality and Policy](docs/materiality-and-policy.md)
 - [Terminology](docs/terminology.md)
@@ -110,6 +117,8 @@ A Judgment Point captures a consequential technical decision:
 
 ## Prerequisites
 
+- [Python](https://www.python.org/) >= 3.12
+- [uv](https://docs.astral.sh/uv/) (Python package manager)
 - [Node.js](https://nodejs.org/) >= 22.0.0 (LTS)
 - [pnpm](https://pnpm.io/) >= 10.0.0
 
@@ -120,6 +129,7 @@ git clone https://github.com/STEIDd/HumanMachineJudgment.git
 cd HumanMachineJudgment
 pnpm install
 pnpm run build
+cd backend && uv sync --all-packages && cd ..
 ```
 
 ## Development Commands
@@ -139,45 +149,48 @@ pnpm run build
 
 ## Packages
 
-| Package                                                                     | Description                                                        | Status      |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------- |
-| [@human-machine-judgment/core](packages/judgment-core/)                     | Domain types, state machine, lifecycle, scoring, policy evaluation | Implemented |
-| [@human-machine-judgment/schemas](packages/judgment-schemas/)               | JSON schemas and generated TypeScript types                        | Implemented |
-| [@human-machine-judgment/sdk](packages/judgment-sdk/)                       | Programmatic API for Judgment Points                               | Implemented |
-| [@human-machine-judgment/storage-memory](packages/judgment-storage-memory/) | In-memory storage adapter                                          | Implemented |
-| [@human-machine-judgment/storage-sqlite](packages/judgment-storage-sqlite/) | SQLite storage adapter                                             | Skeleton    |
-| [@human-machine-judgment/mcp](packages/judgment-mcp/)                       | MCP server (protocol 2026-07-28)                                   | Skeleton    |
-| [@human-machine-judgment/langgraph](packages/judgment-langgraph/)           | LangGraph interrupt adapter                                        | Skeleton    |
-| [@human-machine-judgment/ui](packages/judgment-ui/)                         | React components for Judgment Point UI                             | Skeleton    |
+### Python (backend/)
+
+| Package                   | Description                                     | Status      |
+| ------------------------- | ----------------------------------------------- | ----------- |
+| `judgment_core`           | Domain types, state machine, lifecycle, scoring | Implemented |
+| `judgment_sdk`            | Developer SDK for Judgment Points               | Implemented |
+| `judgment_storage_memory` | In-memory storage adapter                       | Implemented |
+| `judgment_storage_sqlite` | SQLite storage adapter                          | Implemented |
+| `judgment_mcp`            | MCP server (protocol 2026-07-28)                | Implemented |
+| `judgment_langgraph`      | LangGraph interrupt adapter                     | Implemented |
+| `reference_server`        | FastAPI HTTP API server                         | Implemented |
+
+### TypeScript (packages/, apps/)
+
+| Package                                                        | Description                                 | Status      |
+| -------------------------------------------------------------- | ------------------------------------------- | ----------- |
+| [@human-machine-judgment/schemas](packages/judgment-schemas/)  | JSON schemas and generated TypeScript types | Implemented |
+| [@human-machine-judgment/ui](packages/judgment-ui/)            | 18 React components for Judgment Point UI   | Implemented |
+| [@human-machine-judgment/reference-demo](apps/reference-demo/) | Reference web application                   | Implemented |
 
 ## Repository Structure
 
 ```
 human-machine-judgment/
+  backend/
+    judgment_core/         Core domain logic (Python, no framework deps)
+    judgment_sdk/          Developer SDK
+    judgment_storage_memory/   In-memory storage
+    judgment_storage_sqlite/   SQLite storage
+    judgment_mcp/          MCP server integration
+    judgment_langgraph/    LangGraph adapter
+    reference_server/      FastAPI HTTP API server
+  packages/
+    judgment-schemas/      JSON schemas and TypeScript types
+    judgment-ui/           React UI component library (18 components)
   apps/
     reference-demo/        Vite + React reference interface
-    reference-server/      Fastify API server
     documentation/         Documentation site
-  packages/
-    judgment-core/         Core domain logic (no framework dependencies)
-    judgment-schemas/      JSON schemas and TypeScript types
-    judgment-sdk/          Programmatic API
-    judgment-ui/           React components
-    judgment-mcp/          MCP server integration
-    judgment-langgraph/    LangGraph adapter
-    judgment-storage-memory/   In-memory storage
-    judgment-storage-sqlite/   SQLite storage
   schemas/                 JSON Schema source files
   skills/
     technical-judgment-review/   Agent Skill for technical judgment
-  examples/
-    reduced-order-thermal-model/ Reference scientific workflow
-  evals/
-    fixtures/              Evaluation test fixtures
-    trigger-detection/     Detection quality tests
-    interruption-burden/   False interruption tests
-    dependency-tracing/    Dependency tracking tests
-    workflow-comparison/   Workflow comparison tests
+  evals/                   Evaluation harness and test fixtures
   docs/                    Specification and documentation
     decisions/             Architecture Decision Records
 ```
@@ -185,12 +198,14 @@ human-machine-judgment/
 ## Testing
 
 ```bash
-pnpm run test           # Run all tests
-pnpm run test:unit      # Run unit tests only
+pnpm run test                      # TypeScript tests (Vitest)
+cd backend && uv run pytest -v     # Python tests (pytest)
+cd backend && uv run pytest ../evals/ -v  # Evaluation harness
 ```
 
-The project uses [Vitest](https://vitest.dev/) for unit and integration
-tests. End-to-end tests using Playwright will be added in a later phase.
+The project uses [Vitest](https://vitest.dev/) for TypeScript tests
+and [pytest](https://docs.pytest.org/) for Python tests. Playwright
+end-to-end tests are scaffolded in `apps/reference-demo/e2e/`.
 
 ## Contributing
 
@@ -217,14 +232,14 @@ citation information in [CITATION.cff](CITATION.cff).
 
 ## Current Limitations
 
-- The SQLite storage adapter, MCP server, LangGraph adapter, and React
-  UI components are not yet implemented (skeleton code only).
 - The materiality scoring thresholds are an initial hypothesis and have
   not been validated through empirical study.
-- The evaluation framework defines fixture structures but does not yet
-  contain executable evaluation harnesses.
-- The MCP integration targets protocol version 2026-07-28 but has not been
-  tested with the MCP Inspector.
-- The reference interface displays placeholder content.
+- The reference server is intentionally unauthenticated and uses
+  `allow_origins=["*"]` for CORS. It is not suitable for production
+  deployment without additional security configuration.
+- The MCP integration targets protocol version 2026-07-28 but has not
+  been tested with the MCP Inspector.
+- Playwright end-to-end tests are scaffolded but require browser
+  binaries to execute (`npx playwright install`).
 - No external model provider integration exists. Model integrations are
   designed to be optional and provider-neutral.

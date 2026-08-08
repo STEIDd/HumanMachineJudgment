@@ -1,0 +1,34 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  line-height: var(--jp-line-height-tight);
+  border-radius: var(--jp-radius-full);
+  white-space: nowrap;
+  user-select: none;
+  background-color: var(--jp-color-bg-muted);
+  color: var(--jp-color-text-secondary);
+}
+
+.trace {
+  background-color: var(--jp-bg-candidate);
+  color: var(--jp-color-trace);
+}
+
+.disclose {
+  background-color: var(--jp-bg-pending);
+  color: #084298;
+}
+
+.pause {
+  background-color: var(--jp-bg-delegated);
+  color: #984c0c;
+}
+
+.require_investigation {
+  background-color: var(--jp-bg-stale);
+  color: #842029;
+}

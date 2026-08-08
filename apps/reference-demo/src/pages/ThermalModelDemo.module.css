@@ -1,0 +1,463 @@
+/* ------------------------------------------------------------------ */
+/* ThermalModelDemo layout                                            */
+/* ------------------------------------------------------------------ */
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #212529;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin: 0 0 16px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Step navigation                                                     */
+/* ------------------------------------------------------------------ */
+
+.stepNav {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 32px;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.stepButton {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;
+  color: #495057;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stepButton:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.stepButtonActive {
+  background: #0d6efd;
+  border-color: #0d6efd;
+  color: #fff;
+  font-weight: 600;
+}
+
+.stepButtonActive:hover {
+  background: #0b5ed7;
+}
+
+.stepButtonCompleted {
+  background: #d1e7dd;
+  border-color: #badbcc;
+  color: #0f5132;
+}
+
+/* ------------------------------------------------------------------ */
+/* Step content                                                        */
+/* ------------------------------------------------------------------ */
+
+.stepContent {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.stepTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: #212529;
+}
+
+.stepDescription {
+  color: #495057;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Data tables                                                         */
+/* ------------------------------------------------------------------ */
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 0.9rem;
+}
+
+.dataTable th,
+.dataTable td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.dataTable th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+.dataTable td {
+  color: #212529;
+}
+
+.dataTable tr:last-child td {
+  border-bottom: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Results card                                                        */
+/* ------------------------------------------------------------------ */
+
+.resultsCard {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.resultsCard h4 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: #212529;
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+
+.resultLabel {
+  color: #6c757d;
+}
+
+.resultValue {
+  font-weight: 600;
+  color: #212529;
+}
+
+.resultValueGood {
+  color: #198754;
+  font-weight: 600;
+}
+
+.resultValueBad {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ */
+/* Judgment point section                                              */
+/* ------------------------------------------------------------------ */
+
+.jpSection {
+  margin: 24px 0;
+  padding: 16px;
+  border: 2px solid #0d6efd;
+  border-radius: 8px;
+  background: #f0f6ff;
+}
+
+.jpSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.jpBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jpBadgeFraming {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.jpBadgeAssumption {
+  background: #fff3cd;
+  color: #664d03;
+}
+
+.jpBadgeMethod {
+  background: #e2d9f3;
+  color: #41166c;
+}
+
+.jpBadgeValidation {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.jpQuestion {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #212529;
+}
+
+.jpContext {
+  font-size: 0.9rem;
+  color: #495057;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Lifecycle buttons                                                   */
+/* ------------------------------------------------------------------ */
+
+.lifecycleActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.btnPrimary {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #0d6efd;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnPrimary:hover {
+  background: #0b5ed7;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;
+  color: #495057;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnSecondary:hover {
+  background: #f8f9fa;
+}
+
+.btnDanger {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnDanger:hover {
+  background: #bb2d3b;
+}
+
+/* ------------------------------------------------------------------ */
+/* Status indicator                                                    */
+/* ------------------------------------------------------------------ */
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.statusPending {
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffecb5;
+}
+
+.statusInvestigating {
+  background: #e2d9f3;
+  color: #41166c;
+  border: 1px solid #d0c4e8;
+}
+
+.statusResolved {
+  background: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.statusCandidate {
+  background: #e2e3e5;
+  color: #41464b;
+  border: 1px solid #d3d6d8;
+}
+
+.statusStale {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+/* ------------------------------------------------------------------ */
+/* Comparison grid                                                     */
+/* ------------------------------------------------------------------ */
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.comparisonCard {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.comparisonCardSelected {
+  border-color: #0d6efd;
+  background: #f0f6ff;
+}
+
+.comparisonCard h5 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: #212529;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dependency graph section                                            */
+/* ------------------------------------------------------------------ */
+
+.graphSection {
+  margin: 24px 0;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Loading / error                                                     */
+/* ------------------------------------------------------------------ */
+
+.loading {
+  text-align: center;
+  padding: 32px;
+  color: #6c757d;
+}
+
+.error {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Property values                                                     */
+/* ------------------------------------------------------------------ */
+
+.propertyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.propertyCard {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.propertyCard h5 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  .comparisonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .propertyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepNav {
+    flex-wrap: nowrap;
+  }
+}

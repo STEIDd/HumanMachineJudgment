@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from judgment_core.storage import JudgmentStorage
 from reference_server.error_handler import register_error_handlers
@@ -25,6 +26,15 @@ def create_app(storage: JudgmentStorage | None = None) -> FastAPI:
         storage = MemoryStorage()
 
     app = FastAPI(title="Judgment Reference Server", version="0.1.0")
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     app.state.storage = storage
 
     register_error_handlers(app)

@@ -1,0 +1,94 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-md);
+  font-family: var(--jp-font-family);
+  padding: var(--jp-space-md);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-md);
+  background-color: var(--jp-color-bg);
+}
+.fieldset {
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  margin: 0;
+}
+.legend {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+  padding: 0 var(--jp-space-xs);
+}
+.checkboxGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--jp-space-xs);
+}
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-xs);
+  font-size: var(--jp-font-size-sm);
+  cursor: pointer;
+  padding: var(--jp-space-xs);
+  border-radius: var(--jp-radius-sm);
+}
+.checkboxLabel:hover {
+  background-color: var(--jp-color-bg-subtle);
+}
+.checkbox {
+  margin: 0;
+}
+.checkboxText {
+  color: var(--jp-color-text);
+  text-transform: capitalize;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+.label {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+.subLabel {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+}
+.rangeRow {
+  display: flex;
+  gap: var(--jp-space-md);
+}
+.rangeField {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.numberInput {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-sm);
+  width: 100%;
+}
+.numberInput:focus {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+.select {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-sm);
+  background-color: var(--jp-color-bg);
+}
+.select:focus {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}

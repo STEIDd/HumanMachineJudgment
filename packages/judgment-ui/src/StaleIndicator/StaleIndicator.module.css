@@ -1,0 +1,40 @@
+.indicator {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-sm);
+  line-height: var(--jp-line-height);
+  background-color: var(--jp-color-warning-bg);
+  border: 1px solid var(--jp-color-warning-border);
+  border-radius: var(--jp-radius-md);
+  color: var(--jp-color-warning-text);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-xs);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--jp-color-warning-text);
+}
+
+.label {
+  font-weight: 700;
+  font-size: var(--jp-font-size-sm);
+}
+
+.reason {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-warning-text);
+}
+
+.timestamp {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-warning-text);
+  opacity: 0.8;
+}

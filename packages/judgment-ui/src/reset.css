@@ -1,0 +1,14 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.jp-root {
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-base);
+  line-height: var(--jp-line-height);
+  color: var(--jp-color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

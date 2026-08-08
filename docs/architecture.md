@@ -14,7 +14,7 @@ The top-level directories serve these purposes:
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `backend/`  | Python backend containing core runtime, SDK, storage adapters, and reference server                                                         |
 | `packages/` | TypeScript frontend libraries including JSON schemas and UI components                                                                      |
-| `apps/`     | Runnable applications including the reference demonstration and documentation site                                                           |
+| `apps/`     | Runnable applications including the reference demonstration and documentation site                                                          |
 | `schemas/`  | Standalone JSON Schema files defining the canonical data shapes for Judgment Points, events, policies, resolutions, and artifact references |
 | `skills/`   | Agent Skill definitions that teach agents how to interact with the Judgment Points system                                                   |
 | `evals/`    | Evaluation harness, test fixtures, and evaluation scenarios                                                                                 |
@@ -30,30 +30,31 @@ The top-level directories serve these purposes:
 
 The `backend/` directory is a uv workspace containing the following Python packages:
 
-| Package              | Responsibility                                                                                                                                                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `judgment_core`      | Core domain types, state machine, lifecycle guards, materiality scoring, hard-trigger evaluation, policy evaluation, authority evaluation, resolution validation, dependency invalidation, staleness detection, and event creation |
-| `judgment_sdk`       | Developer SDK providing typed interfaces for creating, querying, resolving, and managing Judgment Points programmatically                                                                                                          |
-| `judgment_server`    | FastAPI-based HTTP server exposing the Judgment Points API over HTTP with full lifecycle endpoints                                                                                                                                  |
-| `judgment_storage`   | Storage adapters (in-memory and SQLite) implementing the storage interface defined by the core package                                                                                                                             |
-| `judgment_mcp`       | Model Context Protocol server exposing Judgment Point operations as MCP tools and resources (planned)                                                                                                                              |
-| `judgment_langgraph` | LangGraph adapter for integrating Judgment Points into LangGraph-based agent graphs (planned)                                                                                                                                      |
+| Package                   | Responsibility                                                                                                                                                                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `judgment_core`           | Core domain types, state machine, lifecycle guards, materiality scoring, hard-trigger evaluation, policy evaluation, authority evaluation, resolution validation, dependency invalidation, staleness detection, and event creation |
+| `judgment_sdk`            | Developer SDK providing typed interfaces for creating, querying, resolving, and managing Judgment Points programmatically                                                                                                          |
+| `judgment_storage_memory` | In-memory storage adapter implementing the storage interface defined by the core package                                                                                                                                           |
+| `judgment_storage_sqlite` | SQLite storage adapter using SQLAlchemy for persistent single-user or development scenarios                                                                                                                                        |
+| `judgment_mcp`            | Model Context Protocol server exposing Judgment Point operations as MCP tools and resources                                                                                                                                        |
+| `judgment_langgraph`      | LangGraph adapter for integrating Judgment Points into LangGraph-based agent graphs                                                                                                                                                |
+| `reference_server`        | FastAPI-based HTTP server exposing the Judgment Points API over HTTP with full lifecycle endpoints                                                                                                                                 |
 
 ### TypeScript Packages (packages/)
 
 The `packages/` directory contains the remaining TypeScript libraries:
 
-| Package          | Name                                | Responsibility                                                                                                        |
-| ---------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `judgment-schemas` | `@human-machine-judgment/schemas` | JSON Schema definitions, generated TypeScript types, schema validation utilities, and validation fixtures             |
+| Package            | Name                              | Responsibility                                                                                                            |
+| ------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `judgment-schemas` | `@human-machine-judgment/schemas` | JSON Schema definitions, generated TypeScript types, schema validation utilities, and validation fixtures                 |
 | `judgment-ui`      | `@human-machine-judgment/ui`      | React component library providing UI elements for rendering Judgment Points, markers, panels, cards, and comparison views |
 
 ### Applications (apps/)
 
-| Application      | Name                                     | Responsibility                                                                                      |
-| ---------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `reference-demo` | `@human-machine-judgment/reference-demo` | Vite-based React application providing an interactive environment for exploring Judgment Points      |
-| `documentation`  | `@human-machine-judgment/documentation`  | Static documentation site hosting specification, API reference, integration guides, and tutorials    |
+| Application      | Name                                     | Responsibility                                                                                    |
+| ---------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `reference-demo` | `@human-machine-judgment/reference-demo` | Vite-based React application providing an interactive environment for exploring Judgment Points   |
+| `documentation`  | `@human-machine-judgment/documentation`  | Static documentation site hosting specification, API reference, integration guides, and tutorials |
 
 ---
 
@@ -255,40 +256,40 @@ The system does not depend on any specific AI model provider. When model-assiste
 
 ### Backend (Python)
 
-| Component                  | Technology                | Version            |
-| -------------------------- | ------------------------- | ------------------ |
-| Language                   | Python                    | >= 3.11            |
-| Package manager            | uv                        | latest             |
-| Web framework              | FastAPI                   | 0.x                |
-| Data modeling / validation | Pydantic                  | 2.x                |
-| Database ORM               | SQLAlchemy                | 2.x                |
-| Local database             | SQLite                    | Via SQLAlchemy      |
-| Unit and integration tests | pytest                    | 8.x                |
-| Linting                    | ruff                      | latest             |
-| Type checking              | mypy                      | latest             |
-| Formatting                 | ruff format               | latest             |
+| Component                  | Technology  | Version        |
+| -------------------------- | ----------- | -------------- |
+| Language                   | Python      | >= 3.12        |
+| Package manager            | uv          | latest         |
+| Web framework              | FastAPI     | 0.x            |
+| Data modeling / validation | Pydantic    | 2.x            |
+| Database ORM               | SQLAlchemy  | 2.x            |
+| Local database             | SQLite      | Via SQLAlchemy |
+| Unit and integration tests | pytest      | 8.x            |
+| Linting                    | ruff        | latest         |
+| Type checking              | mypy        | latest         |
+| Formatting                 | ruff format | latest         |
 
 ### Frontend (TypeScript)
 
-| Component                  | Technology                | Version            |
-| -------------------------- | ------------------------- | ------------------ |
-| Runtime                    | Node.js                   | 22 LTS             |
-| Package manager            | pnpm                      | >= 10.0.0          |
-| Language                   | TypeScript                | 6.0.3 (strict)     |
-| UI framework               | React                     | 19.x               |
-| Build tool                 | Vite                      | 7.x                |
-| Unit and integration tests | Vitest                    | 4.x                |
-| End-to-end tests           | Playwright                | To be added        |
-| Linting                    | ESLint                    | 10.x               |
-| Formatting                 | Prettier                  | 3.x                |
+| Component                  | Technology | Version        |
+| -------------------------- | ---------- | -------------- |
+| Runtime                    | Node.js    | 22 LTS         |
+| Package manager            | pnpm       | >= 10.0.0      |
+| Language                   | TypeScript | 6.0.3 (strict) |
+| UI framework               | React      | 19.x           |
+| Build tool                 | Vite       | 7.x            |
+| Unit and integration tests | Vitest     | 4.x            |
+| End-to-end tests           | Playwright | To be added    |
+| Linting                    | ESLint     | 10.x           |
+| Formatting                 | Prettier   | 3.x            |
 
 ### Shared
 
-| Component                  | Technology                | Version            |
-| -------------------------- | ------------------------- | ------------------ |
-| Schema format              | JSON Schema Draft 2020-12 | 2020-12            |
-| MCP protocol               | Model Context Protocol    | 2026-07-28         |
-| License                    | Apache-2.0                | N/A                |
+| Component     | Technology                | Version    |
+| ------------- | ------------------------- | ---------- |
+| Schema format | JSON Schema Draft 2020-12 | 2020-12    |
+| MCP protocol  | Model Context Protocol    | 2026-07-28 |
+| License       | Apache-2.0                | N/A        |
 
 TypeScript is configured in strict mode across all frontend packages. Each package has its own `tsconfig.json` that extends the shared `tsconfig.base.json` at the repository root. Python uses mypy in strict mode for type checking across all backend packages.
 
@@ -307,6 +308,114 @@ The reference server is a FastAPI-based HTTP server that exposes the Judgment Po
 ### Documentation Site (`apps/documentation`)
 
 The documentation site is a static site that hosts the project's prose documentation, API reference, and integration guides.
+
+---
+
+## UI Component Library
+
+The `judgment-ui` package provides 18 React components for rendering and interacting with Judgment Points. Components are organized in a flat directory structure, each in its own folder with a `.tsx` implementation, `.module.css` stylesheet, and `.test.tsx` test file.
+
+### Components
+
+| Component                | Purpose                                                             |
+| ------------------------ | ------------------------------------------------------------------- |
+| `StatusBadge`            | Displays the current status of a judgment point                     |
+| `CategoryBadge`          | Displays the judgment category                                      |
+| `InterventionLevelBadge` | Displays the intervention level (trace, disclose, pause, require)   |
+| `MaterialityGauge`       | Visual gauge showing the materiality score (0--18)                  |
+| `StaleIndicator`         | Indicates when a resolved judgment point has become stale           |
+| `AlternativeCard`        | Renders a single alternative with label, description, and tradeoffs |
+| `ComparisonView`         | Side-by-side grid comparison of alternatives                        |
+| `JudgmentCard`           | Summary card for a judgment point in a list                         |
+| `JudgmentPanel`          | Detailed panel showing full judgment point data and actions         |
+| `JudgmentMarker`         | Compact marker for embedding in document or code views              |
+| `JudgmentTimeline`       | Chronological timeline of events for a judgment point               |
+| `DependencyGraph`        | SVG-based visualization of judgment point dependency relationships  |
+| `ResolutionForm`         | Form for recording a resolution (alternative selection, rationale)  |
+| `DelegationDialog`       | Modal dialog for delegating a judgment point                        |
+| `ReopenDialog`           | Modal dialog for reopening a resolved or dismissed judgment point   |
+| `PolicyRuleEditor`       | Editor for creating and modifying policy rules                      |
+| `ProjectJudgmentsView`   | Project-level view listing all judgment points with filters         |
+| `ActivityFeed`           | Chronological feed of recent judgment point events                  |
+
+### Styling
+
+All components use CSS Modules for styling. This provides:
+
+- Zero-runtime CSS (styles extracted at build time)
+- Scoped class names (no global style conflicts)
+- Standard CSS syntax (no learning curve for CSS-in-JS APIs)
+- Compatibility with the `prefers-reduced-motion` media query
+
+### Accessibility
+
+All components follow WCAG 2.2 Level AA guidelines. See the [Accessibility Audit](./accessibility-audit.md) for details.
+
+---
+
+## Reference Web Application
+
+The reference demo (`apps/reference-demo`) is a Vite-based React single-page application that provides an interactive environment for exploring the Judgment Points system.
+
+### Routing
+
+The application uses hash-based routing (`/#/path`) for navigation. This approach requires no server-side routing configuration and works with any static file server.
+
+### State Management
+
+Application state is managed through React Context. There is no external state management library. This keeps the bundle small and the data flow explicit.
+
+### Pages
+
+- **Projects list**: Overview of all projects with judgment point counts.
+- **Project detail**: List of judgment points for a project with status and category filters.
+- **Judgment point detail**: Full detail view with lifecycle actions, event timeline, and linked artifacts.
+- **Policy management**: Create, view, and edit policies for a project.
+- **Component gallery**: Showcase of all UI components with interactive examples.
+- **Thermal model demo**: Scientific example using genuine heat transfer calculations.
+
+---
+
+## Thermal Model Scientific Example
+
+The reference demo includes a thermal analysis workflow that demonstrates judgment points in a realistic scientific context. The thermal model performs genuine heat transfer calculations, not mock data:
+
+- **Fourier's law** for heat conduction through materials
+- **Thermal resistance** calculations for composite walls
+- **Newton's law of cooling** for convective boundary conditions
+- **Steady-state temperature distribution** across a thermal assembly
+
+Judgment points arise naturally from engineering decisions: mesh density selection, boundary condition specification, material property sources, and convergence criteria.
+
+---
+
+## Evaluation Harness
+
+The `evals/` directory contains a Python-based evaluation framework with 12 fixture-based tests. Each fixture is a JSON file describing a scenario:
+
+| Fixture Category        | Count | Purpose                                               |
+| ----------------------- | ----- | ----------------------------------------------------- |
+| Valid candidates        | 2     | Verify correct candidate detection                    |
+| Invalid candidates      | 1     | Verify correct rejection of non-judgment-worthy items |
+| Missed candidates       | 1     | Detect false negatives in candidate identification    |
+| Skill activation        | 3     | Test hard trigger and soft detection scenarios        |
+| Malformed agent output  | 2     | Verify graceful handling of invalid agent responses   |
+| Unauthorized resolution | 2     | Verify authority enforcement                          |
+| Restart/resume          | 1     | Test workflow pause and resume                        |
+
+The harness loads fixtures, validates them against the canonical JSON schemas, and asserts expected outcomes.
+
+---
+
+## Testing Stack
+
+| Layer           | Tool       | Scope                                            |
+| --------------- | ---------- | ------------------------------------------------ |
+| Python unit     | pytest     | Core domain logic, storage adapters, SDK, server |
+| TypeScript unit | Vitest     | UI components, schema validation                 |
+| End-to-end      | Playwright | Browser-based interaction testing                |
+| Accessibility   | axe-core   | WCAG 2.2 Level AA compliance via Playwright      |
+| Evaluation      | pytest     | Fixture-based scenario evaluation                |
 
 ---
 

@@ -41,7 +41,16 @@
           "tradeoffs": "Physically more representative for long-duration, high-temperature service. Requires additional material parameters (damage constants) that may have higher uncertainty."
         }
       ],
-      "affectedArtifactIds": ["cell-31", "cell-38", "cell-42", "plot-7", "plot-9", "validation-check-v05", "conclusion-1", "conclusion-3"],
+      "affectedArtifactIds": [
+        "cell-31",
+        "cell-38",
+        "cell-42",
+        "plot-7",
+        "plot-9",
+        "validation-check-v05",
+        "conclusion-1",
+        "conclusion-3"
+      ],
       "authority": {
         "mode": "human",
         "actorId": "engineer-jsmith"

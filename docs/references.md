@@ -14,14 +14,14 @@ This document lists the official primary sources referenced throughout the Human
 - **URL:** https://spec.modelcontextprotocol.io/
 - **Relevance:** The `judgment-mcp` package implements an MCP server conforming to this specification. The server exposes Judgment Point operations as MCP tools and resources, and uses the MRTR (input-required) mechanism for server-initiated user interaction. Sampling, which was available in earlier protocol versions, is deprecated as of this version.
 
-### Model Context Protocol TypeScript SDK
+### Model Context Protocol Python SDK
 
-- **Title:** MCP TypeScript SDK
-- **Version:** Server SDK v2.0.0, Client SDK v2.0.0
+- **Title:** MCP Python SDK
+- **Version:** >= 1.0
 - **Publisher:** Model Context Protocol project
-- **Packages:** `@modelcontextprotocol/server`, `@modelcontextprotocol/client`
-- **URL:** https://github.com/modelcontextprotocol/typescript-sdk
-- **Relevance:** The `judgment-mcp` package depends on the server SDK for implementing the MCP server. The client SDK is used in testing and in example integration code.
+- **Package:** `mcp`
+- **URL:** https://github.com/modelcontextprotocol/python-sdk
+- **Relevance:** The `judgment_mcp` Python package depends on the MCP Python SDK for implementing the MCP server. The SDK provides the server framework, tool and resource registration, and the MRTR (input-required) mechanism used for server-initiated user interaction.
 
 ---
 
@@ -38,18 +38,10 @@ This document lists the official primary sources referenced throughout the Human
 ### LangGraph Documentation (Python)
 
 - **Title:** LangGraph Documentation
-- **Version:** Python v1.2.10
+- **Version:** Python >= 0.4
 - **Publisher:** LangChain, Inc.
 - **URL:** https://langchain-ai.github.io/langgraph/
-- **Relevance:** The `judgment-langgraph` package provides an adapter for integrating Judgment Points into LangGraph-based agent graphs. The adapter uses LangGraph node and edge definitions, and integrates with the LangGraph checkpointer for state persistence across workflow interruptions.
-
-### LangGraph Documentation (JavaScript/TypeScript)
-
-- **Title:** LangGraph.js Documentation
-- **Version:** JS/TS v1.4.8
-- **Publisher:** LangChain, Inc.
-- **URL:** https://langchain-ai.github.io/langgraphjs/
-- **Relevance:** The `judgment-langgraph` package targets the JavaScript/TypeScript variant of LangGraph. The adapter is written in TypeScript and depends on LangGraph.js types and interfaces.
+- **Relevance:** The `judgment_langgraph` Python package provides an adapter for integrating Judgment Points into LangGraph-based agent graphs. The adapter uses LangGraph's interrupt mechanism for pausing workflows at judgment points and integrates with the LangGraph checkpointer for state persistence across workflow interruptions.
 
 ---
 
@@ -69,7 +61,7 @@ This document lists the official primary sources referenced throughout the Human
 - **Version:** 3.1.1
 - **Publisher:** OpenAPI Initiative
 - **URL:** https://spec.openapis.org/oas/v3.1.1
-- **Relevance:** The reference server (`apps/reference-server`) documents its HTTP API using OpenAPI 3.1. OpenAPI 3.1 aligns with JSON Schema Draft 2020-12, allowing the same schema definitions to be used in both the standalone schema files and the API specification.
+- **Relevance:** The reference server (`backend/reference_server`) documents its HTTP API using OpenAPI 3.1. OpenAPI 3.1 aligns with JSON Schema Draft 2020-12, allowing the same schema definitions to be used in both the standalone schema files and the API specification.
 
 ---
 
@@ -107,13 +99,13 @@ This document lists the official primary sources referenced throughout the Human
 
 ## Web Frameworks and Libraries
 
-### Fastify Documentation
+### FastAPI Documentation
 
-- **Title:** Fastify Documentation
-- **Version:** Current (v5.x)
-- **Publisher:** Fastify project
-- **URL:** https://fastify.dev/docs/latest/
-- **Relevance:** The reference server (`apps/reference-server`) is built on Fastify. Fastify provides the HTTP server framework, request validation, serialization, and plugin architecture used by the server.
+- **Title:** FastAPI Documentation
+- **Version:** >= 0.115
+- **Publisher:** Sebastián Ramírez
+- **URL:** https://fastapi.tiangolo.com/
+- **Relevance:** The reference server (`backend/reference_server`) is built on FastAPI. FastAPI provides the HTTP server framework, request validation via Pydantic, automatic OpenAPI generation, and dependency injection used by the server.
 
 ### React Documentation
 
@@ -132,7 +124,7 @@ This document lists the official primary sources referenced throughout the Human
 - **Title:** SQLite Documentation
 - **Publisher:** SQLite Consortium
 - **URL:** https://www.sqlite.org/docs.html
-- **Relevance:** The `judgment-storage-sqlite` package uses SQLite as its storage backend. The storage adapter uses SQLite through the `better-sqlite3` Node.js binding. SQLite provides the append-only event storage and current-state projection tables used by the Judgment Points system.
+- **Relevance:** The `judgment_storage_sqlite` Python package uses SQLite as its storage backend. The storage adapter uses SQLite through SQLAlchemy ORM with the aiosqlite async driver. SQLite provides the append-only event storage and current-state projection tables used by the Judgment Points system.
 
 ---
 

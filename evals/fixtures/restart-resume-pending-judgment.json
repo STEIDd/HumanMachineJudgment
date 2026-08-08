@@ -55,7 +55,16 @@
           "tradeoffs": "Requires the thickest wall (~43% increase over E=1.0). Minimizes NDE cost but significantly increases material cost and vessel weight. May not be acceptable for the specified design pressure and temperature."
         }
       ],
-      "affectedArtifactIds": ["cell-17", "cell-18", "cell-23", "cell-25", "plot-3", "validation-check-v01", "validation-check-v04", "conclusion-1"],
+      "affectedArtifactIds": [
+        "cell-17",
+        "cell-18",
+        "cell-23",
+        "cell-25",
+        "plot-3",
+        "validation-check-v01",
+        "validation-check-v04",
+        "conclusion-1"
+      ],
       "authority": {
         "mode": "human",
         "actorId": "engineer-mthompson"

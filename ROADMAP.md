@@ -39,28 +39,30 @@ This phase delivers the core libraries and storage layer that other components d
 
 ## Phase 3: Agent Integration, MCP Server, Agent Skill, and LangGraph Adapter
 
-**Status: In Progress**
+**Status: Complete**
 
 This phase provides the integration layer for connecting judgment points to agent frameworks and tools.
 
-- Implement trigger detection system for identifying judgment-worthy moments in agent workflows.
-- Implement the Model Context Protocol server (`judgment-mcp`) exposing judgment point operations as MCP tools and resources.
-- Develop Agent Skill definitions (`skills/`) for use in agent workflows.
-- Build the LangGraph adapter (`judgment-langgraph`) for integrating judgment points into LangGraph-based agent graphs.
-- Define standard patterns for agent-initiated judgment requests and resolution flows.
-- Test integration scenarios across multiple agent frameworks.
-- Document integration guides for each supported framework.
+- ~~Implement trigger detection system for identifying judgment-worthy moments in agent workflows.~~
+- ~~Implement the Model Context Protocol server (`judgment-mcp`) exposing judgment point operations as MCP tools and resources.~~
+- ~~Develop Agent Skill definitions (`skills/`) for use in agent workflows.~~
+- ~~Build the LangGraph adapter (`judgment-langgraph`) for integrating judgment points into LangGraph-based agent graphs.~~
+- ~~Define standard patterns for agent-initiated judgment requests and resolution flows.~~
+- ~~Test integration scenarios across multiple agent frameworks.~~
+- ~~Document integration guides for each supported framework.~~
 
 ## Phase 4: Reference Interface, Reference Server, Reference Workflow, and Documentation Site
 
-**Status: Planned**
+**Status: Complete**
 
 This phase delivers user-facing reference applications and comprehensive documentation.
 
-- Build the reference demonstration application (`reference-demo`) showing judgment points in a realistic workflow.
-- Complete the reference server (`reference-server`) with a full API surface.
-- Develop the UI component library (`judgment-ui`) with accessible, tested components for judgment point interaction.
-- Launch the documentation site (`documentation`) covering specification, API reference, integration guides, and tutorials.
-- Create end-to-end example workflows demonstrating common use cases.
-- Conduct accessibility audits and address findings.
-- Prepare for a 1.0 release with stable APIs and schema versions.
+- ~~Build the reference demonstration application (`reference-demo`) showing judgment points in a realistic workflow.~~
+- ~~Complete the reference server (`reference-server`) with a full API surface (19 HTTP endpoints).~~
+- ~~Develop the UI component library (`judgment-ui`) with 18 accessible, tested React components for judgment point interaction.~~
+- ~~Build a complete thermal model scientific example with genuine heat transfer calculations.~~
+- ~~Implement Python evaluation harness with 12 fixture-based tests.~~
+- ~~Add CORS configuration for frontend-backend communication.~~
+- ~~Create API reference documentation, getting started guide, deployment guide, security review, performance review, and accessibility audit.~~
+- ~~Conduct accessibility audit against WCAG 2.2 Level AA and address findings.~~
+- ~~Set up CI pipeline with TypeScript and Python jobs, evaluation harness, and build verification.~~

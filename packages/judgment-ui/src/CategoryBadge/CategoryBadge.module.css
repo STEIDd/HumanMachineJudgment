@@ -1,0 +1,14 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-xs);
+  font-weight: 500;
+  line-height: var(--jp-line-height-tight);
+  border-radius: var(--jp-radius-sm);
+  background-color: var(--jp-color-bg-muted);
+  color: var(--jp-color-text-secondary);
+  white-space: nowrap;
+  user-select: none;
+}

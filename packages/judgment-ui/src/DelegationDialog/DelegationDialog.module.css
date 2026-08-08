@@ -1,0 +1,119 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.dialog {
+  position: relative;
+  width: 480px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--jp-color-bg);
+  border-radius: var(--jp-radius-lg);
+  box-shadow: var(--jp-shadow-lg);
+  padding: var(--jp-space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-md);
+  font-family: var(--jp-font-family);
+}
+.heading {
+  margin: 0;
+  font-size: var(--jp-font-size-xl);
+  font-weight: 700;
+  color: var(--jp-color-text);
+}
+.question {
+  margin: 0;
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text);
+  line-height: var(--jp-line-height);
+}
+.conditions {
+  padding: var(--jp-space-sm);
+  background-color: var(--jp-color-warning-bg);
+  border: 1px solid var(--jp-color-warning-border);
+  border-radius: var(--jp-radius-sm);
+}
+.conditionsHeading {
+  margin: 0 0 var(--jp-space-xs);
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-warning-text);
+}
+.conditionsList {
+  margin: 0;
+  padding-left: var(--jp-space-lg);
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-warning-text);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+.label {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+.textarea {
+  padding: var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-sm);
+  resize: vertical;
+}
+.textarea:focus {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--jp-space-sm);
+}
+.primaryButton {
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  background-color: var(--jp-color-delegated);
+  color: var(--jp-color-text-inverse);
+  border: none;
+  border-radius: var(--jp-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.secondaryButton {
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  background-color: var(--jp-color-bg);
+  color: var(--jp-color-text);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+.secondaryButton:hover {
+  background-color: var(--jp-color-bg-subtle);
+}
+.summary {
+  font-size: var(--jp-font-size-sm);
+  padding: var(--jp-space-md);
+  background-color: var(--jp-color-bg-subtle);
+  border-radius: var(--jp-radius-md);
+}
+.summary p {
+  margin: 0 0 var(--jp-space-xs);
+}

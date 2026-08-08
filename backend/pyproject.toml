@@ -24,6 +24,7 @@ dev-dependencies = [
   "ruff>=0.11",
   "mypy>=1.15",
   "datamodel-code-generator>=0.27",
+  "jsonschema>=4.23",
 ]
 
 [tool.pytest.ini_options]
@@ -35,6 +36,7 @@ testpaths = [
   "judgment_mcp/tests",
   "judgment_langgraph/tests",
   "reference_server/tests",
+  "../evals",
 ]
 addopts = "-v --strict-markers --tb=short"
 asyncio_mode = "auto"
@@ -60,6 +62,7 @@ known-first-party = [
   "judgment_mcp",
   "judgment_langgraph",
   "reference_server",
+  "evals",
 ]
 
 [tool.mypy]

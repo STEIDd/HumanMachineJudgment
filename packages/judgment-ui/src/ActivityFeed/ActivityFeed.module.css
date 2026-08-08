@@ -1,0 +1,62 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--jp-font-family);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-sm);
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  font-size: var(--jp-font-size-sm);
+  line-height: var(--jp-line-height);
+  border-bottom: 1px solid var(--jp-color-border);
+  transition: background-color var(--jp-transition-fast);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background-color: var(--jp-color-bg-subtle);
+}
+
+.timestamp {
+  flex-shrink: 0;
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+  white-space: nowrap;
+}
+
+.eventType {
+  flex-shrink: 0;
+  padding: 1px var(--jp-space-xs);
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  border-radius: var(--jp-radius-sm);
+  background-color: var(--jp-color-bg-muted);
+  color: var(--jp-color-text-secondary);
+  white-space: nowrap;
+}
+
+.question {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actor {
+  flex-shrink: 0;
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+  white-space: nowrap;
+}
