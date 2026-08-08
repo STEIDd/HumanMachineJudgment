@@ -32,6 +32,6 @@
     "validate": "node --import tsx src/validate-schemas.ts"
   },
   "devDependencies": {
-    "tsx": "^4.23.6"
+    "tsx": "^4.23.7"
   }
 }
