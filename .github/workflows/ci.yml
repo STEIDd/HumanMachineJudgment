@@ -1,0 +1,181 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  typescript:
+    name: TypeScript
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm run format
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Type check
+        run: pnpm run typecheck
+
+      - name: Run tests
+        run: pnpm run test
+
+      - name: Validate schemas
+        run: pnpm run validate:schemas
+
+      - name: Verify committed review-console assets are up to date
+        run: |
+          pnpm --filter @human-machine-judgment/review-console build
+          cp -r apps/review-console/dist/* backend/hmj/src/hmj/_static/
+          if ! git diff --quiet backend/hmj/src/hmj/_static/; then
+            echo "ERROR: Committed review-console assets are stale."
+            echo "Run: pnpm --filter @human-machine-judgment/review-console build"
+            echo "Then: cp -r apps/review-console/dist/* backend/hmj/src/hmj/_static/"
+            echo "And commit the updated assets."
+            git diff --stat backend/hmj/src/hmj/_static/
+            exit 1
+          fi
+          echo "Review console assets are up to date."
+
+  python:
+    name: Python
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: cd backend && uv sync --all-packages
+      - name: Lint
+        run: cd backend && uv run ruff check .
+      - name: Format check
+        run: cd backend && uv run ruff format --check .
+      - name: Type check
+        run: cd backend && uv run mypy .
+      - name: Test
+        run: cd backend && uv run pytest -v
+
+  evals:
+    name: Evaluation Harness
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: cd backend && uv sync --all-packages
+      - name: Run evaluation harness
+        run: cd backend && uv run pytest ../evals/ -v
+
+  hmj-install:
+    name: HMJ Install Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install hmj from checkout
+        run: cd backend && uv tool install --from ./hmj hmj
+      - name: Verify hmj binary
+        run: hmj --version && hmj --help
+      - name: Test hmj init
+        run: |
+          cd /tmp && mkdir hmj-ci-test && cd hmj-ci-test
+          hmj init --name ci-test
+          test -f .judgment/project.toml
+          test -f .judgment/policy.yaml
+          test -f .judgment/judgment.db
+          test -f .judgment/.gitignore
+      - name: Test hmj status
+        run: cd /tmp/hmj-ci-test && hmj status
+      - name: Test hmj doctor
+        run: cd /tmp/hmj-ci-test && hmj doctor
+      - name: Verify review console is packaged
+        run: |
+          cd /tmp/hmj-ci-test
+          hmj doctor 2>&1 | grep -q '\[PASS\] review console'
+          echo "Review console verified by hmj doctor"
+      - name: Test hmj connect/disconnect
+        run: |
+          cd /tmp/hmj-ci-test
+          hmj connect claude
+          test -f .mcp.json
+          test -f .claude/settings.json
+          hmj disconnect claude
+      - name: Test hmj serve (smoke)
+        run: |
+          cd /tmp/hmj-ci-test
+          timeout 5 hmj serve --port 8458 &
+          sleep 2
+          curl -sf http://127.0.0.1:8458/api/v1/health | grep -q ok
+          curl -sf http://127.0.0.1:8458/ | grep -q '<html'
+          kill %1 || true
+
+  playwright:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    needs: [typescript, hmj-install]
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build review console
+        run: pnpm --filter @human-machine-judgment/review-console build
+      - name: Install Python backend
+        run: cd backend && uv sync --all-packages
+      - name: Install Playwright browsers
+        run: cd apps/review-console && npx playwright install --with-deps chromium
+      - name: Initialize test project
+        run: |
+          cd /tmp && mkdir hmj-e2e-test && cd hmj-e2e-test
+          cd ${{ github.workspace }}/backend && uv run hmj init --name e2e-test
+      - name: Run Playwright tests
+        run: cd apps/review-console && npx playwright test
+        env:
+          HMJ_PROJECT_ROOT: /tmp/hmj-e2e-test

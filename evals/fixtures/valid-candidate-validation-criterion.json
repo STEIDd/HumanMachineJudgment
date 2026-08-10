@@ -1,0 +1,42 @@
+{
+  "description": "A correctly identified Judgment Candidate for selecting a validation acceptance criterion. This is a high-materiality decision because the criterion determines whether a model is considered adequate for its intended use.",
+  "expectedResult": "promote",
+  "candidate": {
+    "category": "validation",
+    "question": "What acceptance criterion should be used to determine whether the reduced-order thermal model predictions are adequate for preliminary design screening?",
+    "reason": "The choice of acceptance criterion directly determines whether the model passes or fails validation. Different criteria would lead to different conclusions about model adequacy, affecting whether the reduced-order approach can be used for the intended purpose.",
+    "alternatives": [
+      {
+        "id": "relative-error-5pct",
+        "label": "5% relative error threshold",
+        "description": "Accept the model if peak temperature predictions differ from the reference solution by less than 5% at all measurement locations.",
+        "tradeoffs": "Strict threshold commonly used in detailed design verification. May be unnecessarily demanding for a preliminary screening application."
+      },
+      {
+        "id": "relative-error-10pct",
+        "label": "10% relative error threshold",
+        "description": "Accept the model if predictions differ from the reference by less than 10%.",
+        "tradeoffs": "More permissive, appropriate for screening-level work. Risk of accepting a model with significant localized errors that happen to fall below the global threshold."
+      },
+      {
+        "id": "feature-based",
+        "label": "Feature-based comparison",
+        "description": "Evaluate whether the model correctly predicts the location of peak temperature, the spatial distribution pattern, and relative magnitudes within a stated tolerance band.",
+        "tradeoffs": "Provides a richer assessment of model capability. Requires defining what constitutes correct spatial distribution, which introduces additional subjective judgment."
+      }
+    ],
+    "affectedArtifacts": ["validation-check-v03", "conclusion-3", "conclusion-4"],
+    "uncertainty": "No project-specific validation standard has been established. The applicable engineering society guidelines provide general recommendations but do not specify a single required threshold for this type of analysis.",
+    "confidence": 0.88
+  },
+  "expectedMateriality": {
+    "methodologicalDiscretion": 2,
+    "downstreamInfluence": 3,
+    "uncertainty": 2,
+    "consequence": 2,
+    "reversibility": 1,
+    "accountabilityRequirement": 2,
+    "expectedScore": 12,
+    "expectedIntervention": "pause"
+  }
+}

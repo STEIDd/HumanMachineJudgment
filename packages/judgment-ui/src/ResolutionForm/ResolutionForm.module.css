@@ -1,0 +1,193 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-md);
+  font-family: var(--jp-font-family);
+  padding: var(--jp-space-lg);
+}
+.heading {
+  margin: 0;
+  font-size: var(--jp-font-size-lg);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+.fieldset {
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-md);
+  padding: var(--jp-space-md);
+  margin: 0;
+}
+.legend {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+  padding: 0 var(--jp-space-xs);
+}
+.radioLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--jp-space-sm);
+  padding: var(--jp-space-sm);
+  border-radius: var(--jp-radius-sm);
+  cursor: pointer;
+  transition: background-color var(--jp-transition-fast);
+}
+.radioLabel:hover {
+  background-color: var(--jp-color-bg-subtle);
+}
+.radio {
+  margin-top: 2px;
+}
+.radioContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.radioTitle {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+.radioDesc {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+.label {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+.required {
+  color: #dc3545;
+}
+.textarea {
+  padding: var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-sm);
+  resize: vertical;
+  min-height: 80px;
+}
+.textarea:focus {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+.hint {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+}
+.addItemRow {
+  display: flex;
+  gap: var(--jp-space-sm);
+}
+.input {
+  flex: 1;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-sm);
+}
+.input:focus {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+.addButton {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  background-color: var(--jp-color-bg-subtle);
+  font-size: var(--jp-font-size-sm);
+  cursor: pointer;
+}
+.addButton:hover {
+  background-color: var(--jp-color-bg-muted);
+}
+.itemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  background-color: var(--jp-color-bg-subtle);
+  border-radius: var(--jp-radius-sm);
+  font-size: var(--jp-font-size-sm);
+}
+.removeButton {
+  border: none;
+  background: none;
+  color: var(--jp-color-text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0 var(--jp-space-xs);
+}
+.removeButton:hover {
+  color: #dc3545;
+}
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--jp-space-sm);
+}
+.primaryButton {
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  background-color: var(--jp-color-pending);
+  color: var(--jp-color-text-inverse);
+  border: none;
+  border-radius: var(--jp-radius-md);
+  font-weight: 600;
+  font-size: var(--jp-font-size-sm);
+  cursor: pointer;
+}
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.primaryButton:focus-visible {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+.secondaryButton {
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  background-color: var(--jp-color-bg);
+  color: var(--jp-color-text);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-md);
+  font-weight: 600;
+  font-size: var(--jp-font-size-sm);
+  cursor: pointer;
+}
+.secondaryButton:hover {
+  background-color: var(--jp-color-bg-subtle);
+}
+.confirmationSummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-sm);
+  padding: var(--jp-space-md);
+  background-color: var(--jp-color-bg-subtle);
+  border-radius: var(--jp-radius-md);
+  font-size: var(--jp-font-size-sm);
+}
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+.summaryItem ul {
+  margin: var(--jp-space-xs) 0 0;
+  padding-left: var(--jp-space-lg);
+}

@@ -1,0 +1,71 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+  padding: var(--jp-space-md);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-md);
+  background-color: var(--jp-color-bg);
+  font-family: var(--jp-font-family);
+  transition:
+    border-color var(--jp-transition-fast),
+    box-shadow var(--jp-transition-fast);
+}
+
+.card:hover {
+  border-color: var(--jp-color-border-strong);
+}
+
+.selected {
+  border-color: var(--jp-color-resolved);
+  background-color: var(--jp-bg-resolved);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--jp-space-sm);
+}
+
+.label {
+  margin: 0;
+  font-size: var(--jp-font-size-base);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+
+.selectedBadge {
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  color: #0f5132;
+  background-color: var(--jp-bg-resolved);
+  border: 1px solid var(--jp-color-resolved);
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border-radius: var(--jp-radius-full);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text);
+  line-height: var(--jp-line-height);
+}
+
+.tradeoffs {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text-secondary);
+}
+
+.tradeoffsLabel {
+  font-weight: 600;
+}
+
+.source {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+}
+
+.sourceLabel {
+  font-weight: 600;
+}

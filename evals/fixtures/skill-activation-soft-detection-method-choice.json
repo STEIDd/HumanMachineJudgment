@@ -1,0 +1,46 @@
+{
+  "scenario": "skill-activation-soft-detection-method-choice",
+  "description": "Agent selects between two stress analysis methods for a composite laminate panel. No hard trigger applies, but the choice has moderate materiality warranting disclosure to the user.",
+  "input": {
+    "action": "select_analysis_method",
+    "description": "Choosing Classical Laminate Theory (CLT) over finite element analysis for predicting interlaminar stresses in a carbon fiber reinforced polymer panel under bending load",
+    "context": "Structural analysis of a CFRP panel (8-ply quasi-isotropic layup) for a preliminary design check. The panel thickness-to-span ratio is 1:15, which is near the boundary where CLT assumptions begin to lose accuracy."
+  },
+  "expected": {
+    "detected": true,
+    "hard_trigger": null,
+    "intervention_level": "disclose",
+    "category": "method",
+    "candidate": {
+      "question": "Should Classical Laminate Theory or a 3D finite element model be used to predict interlaminar stresses in this composite panel?",
+      "reason": "The panel's thickness-to-span ratio of 1:15 is near the boundary where CLT's plane-stress assumption becomes inaccurate for interlaminar stress predictions. CLT may underestimate through-thickness stresses by 15-30% in this regime.",
+      "alternatives": [
+        {
+          "id": "clt",
+          "label": "Classical Laminate Theory",
+          "description": "Use CLT with Tsai-Wu failure criterion to evaluate in-plane and estimated interlaminar stresses.",
+          "tradeoffs": "Computationally fast and well-understood. Assumes plane stress and may underestimate through-thickness stresses for panels near the thick-plate threshold."
+        },
+        {
+          "id": "fe-3d",
+          "label": "3D finite element model",
+          "description": "Use a solid-element FE model with at least two elements through each ply thickness to resolve interlaminar stress gradients.",
+          "tradeoffs": "Captures three-dimensional stress states accurately. Requires significantly more computational resources and careful mesh convergence study. May be excessive for a preliminary design check."
+        }
+      ],
+      "affectedArtifacts": ["cell-12", "cell-18", "plot-3", "conclusion-1"],
+      "uncertainty": "The accuracy boundary for CLT at this thickness-to-span ratio has not been validated against test data for this specific layup sequence.",
+      "confidence": 0.74
+    }
+  },
+  "expectedMateriality": {
+    "methodologicalDiscretion": 2,
+    "downstreamInfluence": 2,
+    "uncertainty": 1,
+    "consequence": 1,
+    "reversibility": 1,
+    "accountabilityRequirement": 1,
+    "expectedScore": 8,
+    "expectedIntervention": "disclose"
+  }
+}

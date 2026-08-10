@@ -1,0 +1,92 @@
+:root {
+  /* Status colors */
+  --jp-color-candidate: #6c757d;
+  --jp-color-pending: #0d6efd;
+  --jp-color-investigating: #6610f2;
+  --jp-color-resolved: #198754;
+  --jp-color-delegated: #fd7e14;
+  --jp-color-stale: #dc3545;
+  --jp-color-reopened: #d63384;
+  --jp-color-dismissed: #adb5bd;
+
+  /* Status backgrounds (light tints) */
+  --jp-bg-candidate: #f8f9fa;
+  --jp-bg-pending: #e7f1ff;
+  --jp-bg-investigating: #f0e7fe;
+  --jp-bg-resolved: #e8f5e9;
+  --jp-bg-delegated: #fff3e0;
+  --jp-bg-stale: #fde8e8;
+  --jp-bg-reopened: #fce4ec;
+  --jp-bg-dismissed: #f1f3f5;
+
+  /* Intervention level colors */
+  --jp-color-trace: #495057;
+  --jp-color-disclose: #0d6efd;
+  --jp-color-pause: #fd7e14;
+  --jp-color-require-investigation: #dc3545;
+
+  /* Neutral colors */
+  --jp-color-bg: #ffffff;
+  --jp-color-bg-subtle: #f8f9fa;
+  --jp-color-bg-muted: #e9ecef;
+  --jp-color-border: #dee2e6;
+  --jp-color-border-strong: #adb5bd;
+  --jp-color-text: #212529;
+  --jp-color-text-secondary: #565e64;
+  --jp-color-text-inverse: #ffffff;
+  --jp-color-link: #0d6efd;
+  --jp-color-warning-bg: #fff3cd;
+  --jp-color-warning-border: #ffc107;
+  --jp-color-warning-text: #664d03;
+  --jp-color-error-bg: #f8d7da;
+  --jp-color-error-border: #f5c2c7;
+  --jp-color-error-text: #842029;
+
+  /* Spacing scale */
+  --jp-space-xs: 4px;
+  --jp-space-sm: 8px;
+  --jp-space-md: 16px;
+  --jp-space-lg: 24px;
+  --jp-space-xl: 32px;
+  --jp-space-2xl: 48px;
+
+  /* Typography */
+  --jp-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --jp-font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+  --jp-font-size-xs: 0.75rem;
+  --jp-font-size-sm: 0.875rem;
+  --jp-font-size-base: 1rem;
+  --jp-font-size-lg: 1.125rem;
+  --jp-font-size-xl: 1.25rem;
+  --jp-font-size-2xl: 1.5rem;
+  --jp-line-height: 1.5;
+  --jp-line-height-tight: 1.25;
+
+  /* Border radius */
+  --jp-radius-sm: 4px;
+  --jp-radius-md: 6px;
+  --jp-radius-lg: 8px;
+  --jp-radius-full: 9999px;
+
+  /* Focus ring */
+  --jp-focus-ring: 0 0 0 3px rgba(13, 110, 253, 0.5);
+
+  /* Shadows */
+  --jp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --jp-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --jp-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --jp-transition-fast: 150ms ease;
+  --jp-transition-normal: 250ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}

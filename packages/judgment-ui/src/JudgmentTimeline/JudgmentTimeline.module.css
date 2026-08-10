@@ -1,0 +1,102 @@
+.timeline {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--jp-font-family);
+}
+
+.entry {
+  display: flex;
+  gap: var(--jp-space-sm);
+  position: relative;
+}
+
+.connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  padding-top: 2px;
+}
+
+.dot {
+  flex-shrink: 0;
+}
+
+.line {
+  flex: 1;
+  width: 2px;
+  min-height: var(--jp-space-md);
+  background-color: var(--jp-color-border);
+}
+
+.entry:last-child .line {
+  display: none;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--jp-space-md);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--jp-space-sm);
+}
+
+.eventType {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+
+.timestamp {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+  white-space: nowrap;
+}
+
+.transition {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-xs);
+  font-size: var(--jp-font-size-xs);
+}
+
+.status {
+  padding: 1px var(--jp-space-xs);
+  border-radius: var(--jp-radius-sm);
+  background-color: var(--jp-color-bg-muted);
+  color: var(--jp-color-text-secondary);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.arrow {
+  color: var(--jp-color-text-secondary);
+}
+
+.actor {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-xs);
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+}
+
+.actorType {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.actorId {
+  color: var(--jp-color-text-secondary);
+}

@@ -1,0 +1,51 @@
+{
+  "scenario": "malformed-agent-output-invalid-score",
+  "description": "Invalid candidate data with a materiality score outside the valid range. The agent provided a materiality score of 25, which exceeds the maximum allowed score of 18 (six dimensions, each 0-3). Validation should reject this assessment.",
+  "input": {
+    "candidate": {
+      "category": "parameter",
+      "question": "What value should be used for the convective heat transfer coefficient on the external surface of the heat exchanger shell?",
+      "reason": "The external heat transfer coefficient significantly affects the predicted shell temperature distribution. Published correlations give values ranging from 5 to 25 W/m2K depending on assumed wind conditions.",
+      "alternatives": [
+        {
+          "id": "conservative-low",
+          "label": "Low estimate (5 W/m2K)",
+          "description": "Use a conservative low value assuming still air conditions on the external surface.",
+          "tradeoffs": "Conservative for thermal stress analysis (predicts higher shell temperatures). May overestimate thermal gradients and result in oversized thermal protection."
+        },
+        {
+          "id": "nominal",
+          "label": "Nominal estimate (15 W/m2K)",
+          "description": "Use a moderate value based on typical outdoor installation with light wind conditions.",
+          "tradeoffs": "Represents a reasonable expected condition. Neither conservative nor unconservative; may not bound worst-case scenarios."
+        },
+        {
+          "id": "high",
+          "label": "High estimate (25 W/m2K)",
+          "description": "Use an optimistic high value assuming forced convection from sustained wind.",
+          "tradeoffs": "Predicts lower shell temperatures. Unconservative for thermal stress if actual wind conditions are calmer than assumed."
+        }
+      ],
+      "affectedArtifacts": ["cell-5", "cell-11", "cell-19", "plot-2", "validation-check-v02"],
+      "uncertainty": "Site-specific wind data is not available. The assumed convection coefficient could vary by a factor of 5 depending on installation conditions.",
+      "confidence": 0.79
+    },
+    "materialityAssessment": {
+      "score": 25,
+      "dimensions": {
+        "methodologicalDiscretion": 5,
+        "downstreamInfluence": 4,
+        "uncertainty": 5,
+        "consequence": 4,
+        "reversibility": 4,
+        "accountabilityRequirement": 3
+      }
+    }
+  },
+  "expected": {
+    "valid": false,
+    "error": "validation_error",
+    "invalidField": "materialityAssessment",
+    "message": "Materiality score 25 exceeds the maximum allowed value of 18. Each dimension must be between 0 and 3, and the aggregate score must be between 0 and 18."
+  }
+}

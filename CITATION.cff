@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: 'If you use this software, please cite it using the metadata below.'
+title: 'Human-Machine Judgment: Reference Implementation of Judgment Points for Technical Agent Workflows'
+type: software
+authors:
+  - given-names: Courage
+    family-names: Lahban
+license: Apache-2.0
+repository-code: 'https://github.com/STEIDd/HumanMachineJudgment'
+version: '0.1.0'
+date-released: '2026-08-04'

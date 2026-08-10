@@ -1,0 +1,22 @@
+{
+  "category": "assumption",
+  "question": "Describe the judgment question here",
+  "reason": "",
+  "alternatives": [
+    {
+      "id": "",
+      "label": "",
+      "description": "",
+      "tradeoffs": ""
+    },
+    {
+      "id": "",
+      "label": "",
+      "description": "",
+      "tradeoffs": ""
+    }
+  ],
+  "affectedArtifacts": [],
+  "uncertainty": "",
+  "confidence": 0.0
+}

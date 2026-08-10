@@ -1,0 +1,101 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-sm);
+  padding: var(--jp-space-md);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-lg);
+  background-color: var(--jp-color-bg);
+  cursor: pointer;
+  font-family: var(--jp-font-family);
+  transition:
+    border-color var(--jp-transition-fast),
+    box-shadow var(--jp-transition-fast);
+}
+
+.card:hover {
+  border-color: var(--jp-color-border-strong);
+  box-shadow: var(--jp-shadow-sm);
+}
+
+.card:focus-visible {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--jp-space-sm);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--jp-space-xs);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.score {
+  font-size: var(--jp-font-size-sm);
+  font-weight: 700;
+  color: var(--jp-color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.timestamp {
+  font-size: var(--jp-font-size-xs);
+  color: var(--jp-color-text-secondary);
+  white-space: nowrap;
+}
+
+.question {
+  margin: 0;
+  font-size: var(--jp-font-size-sm);
+  line-height: var(--jp-line-height);
+  color: var(--jp-color-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--jp-space-xs);
+  padding-top: var(--jp-space-sm);
+  border-top: 1px solid var(--jp-color-border);
+}
+
+.actionButton {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  font-family: var(--jp-font-family);
+  font-size: var(--jp-font-size-xs);
+  font-weight: 500;
+  line-height: var(--jp-line-height-tight);
+  color: var(--jp-color-link);
+  background-color: transparent;
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--jp-transition-fast),
+    border-color var(--jp-transition-fast);
+  white-space: nowrap;
+}
+
+.actionButton:hover {
+  background-color: var(--jp-color-bg-subtle);
+  border-color: var(--jp-color-border-strong);
+}
+
+.actionButton:focus-visible {
+  outline: none;
+  box-shadow: var(--jp-focus-ring);
+}

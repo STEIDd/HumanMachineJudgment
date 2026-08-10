@@ -1,0 +1,130 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-md);
+  font-family: var(--jp-font-family);
+}
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--jp-space-2xl) var(--jp-space-lg);
+  text-align: center;
+}
+.emptyHeading {
+  margin: 0 0 var(--jp-space-sm);
+  font-size: var(--jp-font-size-lg);
+  font-weight: 600;
+  color: var(--jp-color-text);
+}
+.emptyText {
+  margin: 0;
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text-secondary);
+  max-width: 400px;
+  line-height: var(--jp-line-height);
+}
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-sm);
+  padding: var(--jp-space-md);
+  background-color: var(--jp-color-bg-subtle);
+  border-radius: var(--jp-radius-md);
+  border: 1px solid var(--jp-color-border);
+}
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-xs);
+}
+.filterLabel {
+  font-size: var(--jp-font-size-xs);
+  font-weight: 600;
+  color: var(--jp-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.filterOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--jp-space-xs);
+}
+.filterChip {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  font-size: var(--jp-font-size-xs);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-full);
+  background-color: var(--jp-color-bg);
+  color: var(--jp-color-text-secondary);
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: all var(--jp-transition-fast);
+}
+.filterChip:hover {
+  border-color: var(--jp-color-border-strong);
+}
+.filterChipActive {
+  background-color: var(--jp-color-pending);
+  color: var(--jp-color-text-inverse);
+  border-color: var(--jp-color-pending);
+}
+.sortBar {
+  display: flex;
+  align-items: center;
+  gap: var(--jp-space-sm);
+}
+.sortLabel {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text-secondary);
+}
+.sortSelect {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-size: var(--jp-font-size-sm);
+  background-color: var(--jp-color-bg);
+}
+.sortOrderButton {
+  padding: var(--jp-space-xs) var(--jp-space-sm);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  font-size: var(--jp-font-size-sm);
+  background-color: var(--jp-color-bg);
+  cursor: pointer;
+}
+.sortOrderButton:hover {
+  background-color: var(--jp-color-bg-subtle);
+}
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--jp-space-sm);
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--jp-space-md);
+  padding: var(--jp-space-md) 0;
+}
+.pageButton {
+  padding: var(--jp-space-sm) var(--jp-space-md);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--jp-radius-sm);
+  background-color: var(--jp-color-bg);
+  font-size: var(--jp-font-size-sm);
+  cursor: pointer;
+}
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pageButton:hover:not(:disabled) {
+  background-color: var(--jp-color-bg-subtle);
+}
+.pageIndicator {
+  font-size: var(--jp-font-size-sm);
+  color: var(--jp-color-text-secondary);
+}
